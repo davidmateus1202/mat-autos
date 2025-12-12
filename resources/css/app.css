@@ -1,0 +1,45 @@
+/* Fuente Poppins para toda la app: debe ir antes de todo */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root { --font-sans: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; }
+html, body { font-family: var(--font-sans); }
+
+/* Ocultar barras de scroll en todo el proyecto */
+html, body, * {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge antiguo */
+}
+
+/* Chrome, Safari y Edge basado en Chromium */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+}
+
+@layer components {
+  .input {
+    @apply w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-3 text-sm focus:border-zinc-900 dark:focus:border-white focus:ring-0 transition-colors outline-none;
+  }
+  
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+}
+
+/* Inputs modernos (aplica a input, select, textarea) */
+.input { @apply w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 px-4 py-2 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 border border-transparent outline-none ring-1 ring-transparent focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400; }
+.input:focus { @apply border-transparent; }
+select.input { @apply appearance-none pr-9; }
+
+/* Eliminar borde azul por defecto en inputs/select (Chrome) */
+input, select, textarea { outline: none; }
+
+/* Centrar contenido en controles si se requiere */
+.input-center { @apply text-center; }
+
+/* Botones */
+.btn-primary { @apply inline-flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-white hover:opacity-90 focus-visible:ring-2; }
+.btn-black { @apply inline-flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-white hover:opacity-90 focus-visible:ring-2; }
+
