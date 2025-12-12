@@ -81,16 +81,16 @@
                 </div>
             </div>
             
-            <div class="overflow-x-auto hidden md:block">
-                <table class="w-full text-left text-xs lg:text-sm">
+            <div class="hidden md:block rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+                <table class="w-full text-left text-xs lg:text-sm table-fixed">
                     <thead class="bg-zinc-50 dark:bg-zinc-800/50 text-zinc-500 dark:text-zinc-400">
                         <tr>
-                            <th class="px-3 lg:px-6 py-4 font-medium">Entidad Bancaria</th>
-                            <th class="px-3 lg:px-6 py-4 font-medium text-right">Cupo Total</th>
-                            <th class="px-3 lg:px-6 py-4 font-medium text-right">Deuda Actual</th>
-                            <th class="px-3 lg:px-6 py-4 font-medium text-right">Disponible</th>
-                            <th class="px-3 lg:px-6 py-4 font-medium text-center">Estado</th>
-                            <th class="px-3 lg:px-6 py-4 font-medium text-right">Acciones</th>
+                            <th class="w-[25%] px-3 lg:px-6 py-4 font-medium truncate">Entidad Bancaria</th>
+                            <th class="w-[15%] px-3 lg:px-6 py-4 font-medium text-right truncate">Cupo Total</th>
+                            <th class="w-[20%] px-3 lg:px-6 py-4 font-medium text-right truncate">Deuda Actual</th>
+                            <th class="w-[15%] px-3 lg:px-6 py-4 font-medium text-right truncate">Disponible</th>
+                            <th class="w-[10%] px-3 lg:px-6 py-4 font-medium text-center truncate">Estado</th>
+                            <th class="w-[15%] px-3 lg:px-6 py-4 font-medium text-right">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
@@ -100,40 +100,42 @@
                             </td>
                         </tr>
                         <tr v-for="loan in store.loans" :key="loan.id" class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
-                            <td class="px-3 lg:px-6 py-4">
+                            <td class="px-3 lg:px-6 py-4 truncate">
                                 <div class="flex items-center gap-2 lg:gap-3">
                                     <div class="h-8 w-8 lg:h-10 lg:w-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400 shrink-0">
                                         <BuildingLibraryIcon class="h-4 w-4 lg:h-5 lg:w-5" />
                                     </div>
-                                    <div class="min-w-0">
-                                        <p class="font-medium text-zinc-900 dark:text-white truncate">{{ loan.bank_name }}</p>
-                                        <p class="text-xs text-zinc-500">Tasa: {{ loan.interest_rate }}%</p>
+                                    <div class="min-w-0 overflow-hidden">
+                                        <p class="font-medium text-zinc-900 dark:text-white truncate" :title="loan.bank_name">{{ loan.bank_name }}</p>
+                                        <p class="text-xs text-zinc-500 truncate">Tasa: {{ loan.interest_rate }}%</p>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-3 lg:px-6 py-4 text-right font-medium text-zinc-900 dark:text-white whitespace-nowrap">
+                            <td class="px-3 lg:px-6 py-4 text-right font-medium text-zinc-900 dark:text-white truncate">
                                 {{ formatCurrency(loan.amount) }}
                             </td>
-                            <td class="px-3 lg:px-6 py-4 text-right min-w-[120px] lg:min-w-[140px]">
-                                <span class="font-bold text-zinc-900 dark:text-white whitespace-nowrap">{{ formatCurrency(loan.current_debt) }}</span>
-                                <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 mt-2">
-                                    <div class="bg-indigo-600 h-1.5 rounded-full" :style="{ width: `${(loan.current_debt / loan.amount) * 100}%` }"></div>
+                            <td class="px-3 lg:px-6 py-4 text-right">
+                                <div class="flex flex-col items-end w-full">
+                                    <span class="font-bold text-zinc-900 dark:text-white truncate w-full">{{ formatCurrency(loan.current_debt) }}</span>
+                                    <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 mt-2">
+                                        <div class="bg-indigo-600 h-1.5 rounded-full" :style="{ width: `${Math.min((loan.current_debt / loan.amount) * 100, 100)}%` }"></div>
+                                    </div>
                                 </div>
                             </td>
-                            <td class="px-3 lg:px-6 py-4 text-right font-medium text-emerald-600 dark:text-emerald-400 whitespace-nowrap">
+                            <td class="px-3 lg:px-6 py-4 text-right font-medium text-emerald-600 dark:text-emerald-400 truncate">
                                 {{ formatCurrency(loan.available_credit) }}
                             </td>
                             <td class="px-3 lg:px-6 py-4 text-center">
-                                <span :class="getLoanStatusClass(loan.status)" class="inline-flex items-center rounded-full px-2 lg:px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset whitespace-nowrap">
+                                <span :class="getLoanStatusClass(loan.status)" class="inline-flex items-center rounded-full px-2 lg:px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset truncate max-w-full justify-center">
                                     {{ getLoanStatusLabel(loan.status) }}
                                 </span>
                             </td>
                             <td class="px-3 lg:px-6 py-4 text-right">
                                 <div class="flex flex-col xl:flex-row items-end justify-end gap-2">
-                                    <button v-if="loan.available_credit > 0" @click="openDisburseModal(loan)" class="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-xs bg-indigo-50 dark:bg-indigo-900/20 px-2 lg:px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap">
+                                    <button v-if="loan.available_credit > 0" @click="openDisburseModal(loan)" class="w-full xl:w-auto text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-xs bg-indigo-50 dark:bg-indigo-900/20 px-2 lg:px-3 py-1.5 rounded-lg transition-colors truncate">
                                         Desembolsar
                                     </button>
-                                    <button v-if="loan.current_debt > 0" @click="openPaymentModal(loan)" class="text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 font-medium text-xs bg-emerald-50 dark:bg-emerald-900/20 px-2 lg:px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap">
+                                    <button v-if="loan.current_debt > 0" @click="openPaymentModal(loan)" class="w-full xl:w-auto text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 font-medium text-xs bg-emerald-50 dark:bg-emerald-900/20 px-2 lg:px-3 py-1.5 rounded-lg transition-colors truncate">
                                         Pagar
                                     </button>
                                 </div>
