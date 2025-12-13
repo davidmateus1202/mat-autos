@@ -39,6 +39,22 @@ export const useAuthStore = defineStore('auth', {
                 this.loading = false;
             }
         },
+        async register(userData) {
+            this.loading = true;
+            this.errors = {};
+            try {
+                await axios.get('/sanctum/csrf-cookie');
+                await axios.post('/register', userData);
+                await this.getUser();
+                router.push({ name: 'dashboard' });
+            } catch (error) {
+                if (error.response && error.response.status === 422) {
+                    this.errors = error.response.data.errors;
+                }
+            } finally {
+                this.loading = false;
+            }
+        },
         async logout() {
             try {
                 await axios.post('/logout');

@@ -7,14 +7,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Builder;
 
 class Car extends Model
 {
     protected $fillable = [
         'brand_id', 'model', 'year', 'vin', 'plate', 'color',
         'purchase_price', 'purchase_date', 'status',
-        'sale_price', 'estimated_price', 'sale_date', 'sold_at'
+        'sale_price', 'estimated_price', 'sale_date', 'sold_at',
+        'user_id'
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('user', function (Builder $builder) {
+            if (auth()->check()) {
+                $builder->where('user_id', auth()->id());
+            }
+        });
+
+        static::creating(function ($model) {
+            if (auth()->check()) {
+                $model->user_id = auth()->id();
+            }
+        });
+    }
 
     protected $appends = ['total_cost', 'gross_profit', 'net_profit'];
 

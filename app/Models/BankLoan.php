@@ -6,13 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Builder;
 
 class BankLoan extends Model
 {
     protected $fillable = [
         'financial_account_id', 'bank_name', 'amount', 'interest_rate',
-        'start_date', 'term_months', 'status', 'disbursement_date'
+        'start_date', 'term_months', 'status', 'disbursement_date',
+        'user_id'
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('user', function (Builder $builder) {
+            if (auth()->check()) {
+                $builder->where('user_id', auth()->id());
+            }
+        });
+
+        static::creating(function ($model) {
+            if (auth()->check()) {
+                $model->user_id = auth()->id();
+            }
+        });
+    }
 
     protected $casts = [
         'start_date' => 'date',

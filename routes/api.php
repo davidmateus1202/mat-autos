@@ -23,6 +23,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 
     // Finance
     Route::apiResource('financial-accounts', FinancialAccountController::class);
+    Route::post('financial-accounts/{account}/adjust', [FinancialAccountController::class, 'adjustBalance']);
     Route::apiResource('bank-loans', BankLoanController::class);
     Route::post('bank-loans/{loan}/disburse', [BankLoanController::class, 'disburse']);
     Route::post('bank-loans/{loan}/payments', [BankLoanController::class, 'addPayment']);

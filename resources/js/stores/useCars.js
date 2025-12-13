@@ -96,15 +96,6 @@ export const useCarsStore = defineStore('cars', {
             this.loading = true;
             this.errors = {};
             try {
-                // Ensure a default account if not provided
-                if (!carData.account_id) {
-                    const accRes = await axios.get('/api/v1/financial-accounts');
-                    const accounts = accRes.data.data || accRes.data; // support both shapes
-                    if (accounts && accounts.length) {
-                        carData.account_id = accounts[0].id;
-                    }
-                }
-
                 // If brand_name is provided and no brand_id, create brand first
                 if (!carData.brand_id && carData.brand_name) {
                     const brandRes = await axios.post('/api/v1/brands', { name: carData.brand_name });
@@ -134,6 +125,23 @@ export const useCarsStore = defineStore('cars', {
                     this.errors = { general: ['Error de red o servidor.'] };
                 }
                 return false;
+            } finally {
+                this.loading = false;
+            }
+        },
+        async sellCar(carId, saleData) {
+            this.loading = true;
+            this.errors = {};
+            try {
+                await axios.post(`/api/v1/cars/${carId}/sale`, saleData);
+                return true;
+            } catch (error) {
+                if (error.response && error.response.status === 422) {
+                    this.errors = error.response.data.errors;
+                } else {
+                    this.errors = { general: ['Ocurrió un error al registrar la venta.'] };
+                }
+                throw error;
             } finally {
                 this.loading = false;
             }

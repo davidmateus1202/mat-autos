@@ -13,12 +13,6 @@
             <AppContainer>
             <PageHeader title="Vehículos" />
         <LoadingOverlay :visible="store.loading && store.cars.length === 0" />
-        <!-- Toast notifications -->
-        <transition name="fade">
-            <div v-if="toast.message" :class="toastClass" class="fixed right-6 top-6 z-50 rounded-lg px-4 py-2 shadow">
-                {{ toast.message }}
-            </div>
-        </transition>
         
         <!-- Barra de búsqueda y filtros -->
         <div class="mt-4 space-y-3 lg:space-y-0">
@@ -54,7 +48,7 @@
         </div>
 
         <div v-if="store.loading" class="mt-6">
-            <SkeletonRows :count="5" />
+            <SkeletonRows :count="5" /> cursor-pointer hover:opacity-80
         </div>
 
         <div v-else class="mt-6">
@@ -90,7 +84,10 @@
                         </div>
                         <div class="flex items-center justify-between pt-2">
                             <p class="text-sm text-zinc-600 dark:text-zinc-300">VIN: {{ car.vin }}</p>
-                            <router-link :to="{ name: 'cars.show', params: { id: car.id }}" class="inline-flex items-center rounded-md bg-indigo-600 text-white px-3 py-1.5 text-xs font-semibold hover:bg-indigo-500">Ver detalles</router-link>
+                            <div class="flex gap-2">
+                                <button v-if="car.status === 'available'" @click="openSaleModal(car)" class="inline-flex items-center rounded-md bg-emerald-600 text-white px-3 py-1.5 text-xs font-semibold hover:bg-emerald-500 cursor-pointer hover:opacity-90">Vender</button>
+                                <router-link :to="{ name: 'cars.show', params: { id: car.id }}" class="inline-flex items-center rounded-md bg-indigo-600 text-white px-3 py-1.5 text-xs font-semibold hover:bg-indigo-500 cursor-pointer hover:opacity-90">Ver detalles</router-link>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,110 +107,143 @@
             </div>
         </div>
 
-        <!-- Create Modal (Simplified) -->
-        <div v-if="showCreateModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-            <div class="bg-white dark:bg-zinc-900 rounded-lg shadow-xl max-w-md w-full p-6">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Agregar vehículo</h3>
-                <form @submit.prevent="createCar" class="space-y-4">
-                    <div v-if="successMessage" class="rounded-lg bg-emerald-50 text-emerald-700 px-3 py-2 text-sm">
-                        {{ successMessage }}
-                    </div>
-                    <!-- Imágenes primero -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Imágenes</label>
-                        <input ref="imagesInput" type="file" multiple accept="image/*" class="hidden" @change="onImagesSelected" />
-                        
-                        <!-- Drag and drop area -->
-                        <div 
-                            @click="() => imagesInput?.click()"
-                            @dragover.prevent
-                            @drop.prevent="onImagesSelected"
-                            class="relative border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-lg p-8 text-center cursor-pointer hover:border-indigo-500 dark:hover:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 transition"
-                        >
-                            <div class="flex flex-col items-center gap-3">
-                                <!-- Upload icon -->
-                                <div class="w-12 h-12 mx-auto bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center">
-                                    <ArrowUpTrayIcon class="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+        <!-- Create Slide-over -->
+        <div v-if="showCreateModal" class="relative z-50" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+            <div class="fixed inset-0 bg-black/50 transition-opacity"></div>
+            <div class="fixed inset-0 overflow-hidden">
+                <div class="absolute inset-0 overflow-hidden">
+                    <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                        <div class="pointer-events-auto w-screen max-w-md transform transition ease-in-out duration-500 sm:duration-700">
+                            <div class="flex h-full flex-col overflow-y-scroll bg-white dark:bg-zinc-900 shadow-xl">
+                                <div class="px-4 py-6 sm:px-6 border-b border-zinc-200 dark:border-zinc-800">
+                                    <div class="flex items-start justify-between">
+                                        <h2 class="text-lg font-medium text-gray-900 dark:text-white" id="slide-over-title">Agregar vehículo</h2>
+                                        <div class="ml-3 flex h-7 items-center">
+                                            <button type="button" @click="showCreateModal = false" class="relative rounded-md bg-white dark:bg-zinc-900 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                <span class="absolute -inset-2.5"></span>
+                                                <span class="sr-only">Cerrar panel</span>
+                                                <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">Arrastra imágenes aquí</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">o haz clic para seleccionar</p>
-                                </div>
-                                <p class="text-xs text-gray-400 dark:text-gray-500">PNG, JPG, GIF hasta 10MB</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Selected images count -->
-                        <p v-if="newCar.images?.length" class="mt-3 text-sm text-indigo-600 dark:text-indigo-400 font-medium">
-                            ✓ {{ newCar.images.length }} imagen(es) seleccionada(s)
-                        </p>
-                        
-                        <!-- Image previews -->
-                        <div v-if="imagePreviews.length" class="mt-4 grid grid-cols-3 gap-3">
-                            <div v-for="(src, idx) in imagePreviews" :key="idx" class="relative group">
-                                <img :src="src" class="h-24 w-full object-cover rounded-lg" />
-                                <button
-                                    type="button"
-                                    @click.stop="removeImage(idx)"
-                                    class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
-                                >
-                                    <XMarkIcon class="h-4 w-4" />
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <p v-if="store.errors['images.0']" class="mt-2 text-xs text-red-600">{{ store.errors['images.0'][0] }}</p>
-                    </div>
+                                <div class="relative mt-6 flex-1 px-4 sm:px-6">
+                                    <form @submit.prevent="createCar" class="space-y-6 pb-20">
+                                        <div v-if="successMessage" class="rounded-lg bg-emerald-50 text-emerald-700 px-3 py-2 text-sm">
+                                            {{ successMessage }}
+                                        </div>
+                                        <!-- Imágenes primero -->
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Imágenes</label>
+                                            <input ref="imagesInput" type="file" multiple accept="image/*" class="hidden" @change="onImagesSelected" />
+                                            
+                                            <!-- Drag and drop area -->
+                                            <div 
+                                                @click="() => imagesInput?.click()"
+                                                @dragover.prevent
+                                                @drop.prevent="onImagesSelected"
+                                                class="relative border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-lg p-8 text-center cursor-pointer hover:border-indigo-500 dark:hover:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 transition"
+                                            >
+                                                <div class="flex flex-col items-center gap-3">
+                                                    <!-- Upload icon -->
+                                                    <div class="w-12 h-12 mx-auto bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center">
+                                                        <ArrowUpTrayIcon class="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-sm font-semibold text-gray-900 dark:text-white">Arrastra imágenes aquí</p>
+                                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">o haz clic para seleccionar</p>
+                                                    </div>
+                                                    <p class="text-xs text-gray-400 dark:text-gray-500">PNG, JPG, GIF hasta 10MB</p>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Selected images count -->
+                                            <p v-if="newCar.images?.length" class="mt-3 text-sm text-indigo-600 dark:text-indigo-400 font-medium">
+                                                ✓ {{ newCar.images.length }} imagen(es) seleccionada(s)
+                                            </p>
+                                            
+                                            <!-- Image previews -->
+                                            <div v-if="imagePreviews.length" class="mt-4 grid grid-cols-3 gap-3">
+                                                <div v-for="(src, idx) in imagePreviews" :key="idx" class="relative group">
+                                                    <img :src="src" class="h-24 w-full object-cover rounded-lg" />
+                                                    <button
+                                                        type="button"
+                                                        @click.stop="removeImage(idx)"
+                                                        class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
+                                                    >
+                                                        <XMarkIcon class="h-4 w-4" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <p v-if="store.errors['images.0']" class="mt-2 text-xs text-red-600">{{ store.errors['images.0'][0] }}</p>
+                                        </div>
 
-                    <!-- Marca con buscador y texto libre -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Marca</label>
-                        <div class="relative mt-1">
-                            <input v-model="brandInput" type="text" class="input" placeholder="Escribe o selecciona la marca" @input="onBrandInput" />
-                            <div v-if="brandSuggestions.length" class="absolute z-10 mt-1 w-full rounded-lg bg-white dark:bg-zinc-900 shadow ring-1 ring-zinc-200/70 dark:ring-zinc-800">
-                                <ul>
-                                    <li v-for="b in brandSuggestions" :key="b.id" @click="selectBrand(b)" class="px-3 py-2 hover:bg-zinc-50 dark:hover:bg-zinc-800 cursor-pointer">{{ b.name }}</li>
-                                </ul>
+                                        <!-- Marca con buscador y texto libre -->
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Marca</label>
+                                            <div class="relative mt-1">
+                                                <input v-model="brandInput" type="text" class="input" placeholder="Escribe o selecciona la marca" @input="onBrandInput" />
+                                                <div v-if="brandSuggestions.length" class="absolute z-10 mt-1 w-full rounded-lg bg-white dark:bg-zinc-900 shadow ring-1 ring-zinc-200/70 dark:ring-zinc-800">
+                                                    <ul>
+                                                        <li v-for="b in brandSuggestions" :key="b.id" @click="selectBrand(b)" class="px-3 py-2 hover:bg-zinc-50 dark:hover:bg-zinc-800 cursor-pointer">{{ b.name }}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <p class="mt-1 text-xs text-zinc-500">Si no aparece la marca, puedes escribirla y la crearemos.</p>
+                                            <p v-if="store.errors.brand_id" class="mt-1 text-xs text-red-600">{{ store.errors.brand_id[0] }}</p>
+                                            <p v-if="store.errors.brand_name" class="mt-1 text-xs text-red-600">{{ store.errors.brand_name[0] }}</p>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Modelo</label>
+                                                <input v-model="newCar.model" type="text" required class="input mt-1" />
+                                                <p v-if="store.errors.model" class="mt-1 text-xs text-red-600">{{ store.errors.model[0] }}</p>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Año</label>
+                                                <input v-model="newCar.year" type="number" required class="input mt-1" />
+                                                <p v-if="store.errors.year" class="mt-1 text-xs text-red-600">{{ store.errors.year[0] }}</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">VIN</label>
+                                            <input v-model="newCar.vin" type="text" required class="input mt-1" />
+                                            <p v-if="store.errors.vin" class="mt-1 text-xs text-red-600">{{ store.errors.vin[0] }}</p>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Precio de compra</label>
+                                            <input :value="purchasePriceDisplay" @input="onPriceInput" inputmode="numeric" required class="input mt-1" />
+                                            <p v-if="store.errors.purchase_price" class="mt-1 text-xs text-red-600">{{ store.errors.purchase_price[0] }}</p>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Fecha de compra</label>
+                                            <input v-model="newCar.purchase_date" type="date" required class="input mt-1" />
+                                            <p v-if="store.errors.purchase_date" class="mt-1 text-xs text-red-600">{{ store.errors.purchase_date[0] }}</p>
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cuenta de Pago</label>
+                                            <select v-model="newCar.account_id" required class="input mt-1">
+                                                <option value="" disabled>Selecciona una cuenta</option>
+                                                <option v-for="account in financeStore.accounts" :key="account.id" :value="account.id">
+                                                    {{ account.name }} ({{ formatCurrency(account.balance) }})
+                                                </option>
+                                            </select>
+                                            <p class="mt-1 text-xs text-zinc-500">El monto se descontará de esta cuenta.</p>
+                                            <p v-if="store.errors.account_id" class="mt-1 text-xs text-red-600">{{ store.errors.account_id[0] }}</p>
+                                        </div>
+                                        
+                                        <div class="flex justify-end gap-3 pt-6 border-t border-zinc-200 dark:border-zinc-800">
+                                            <button type="button" @click="showCreateModal = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-zinc-800 dark:text-gray-300 dark:border-zinc-700 cursor-pointer hover:opacity-80">Cancelar</button>
+                                            <button type="submit" class="btn-primary cursor-pointer hover:opacity-90" :disabled="store.loading">{{ store.loading ? 'Guardando…' : 'Guardar' }}</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                        <p class="mt-1 text-xs text-zinc-500">Si no aparece la marca, puedes escribirla y la crearemos.</p>
-                        <p v-if="store.errors.brand_id" class="mt-1 text-xs text-red-600">{{ store.errors.brand_id[0] }}</p>
-                        <p v-if="store.errors.brand_name" class="mt-1 text-xs text-red-600">{{ store.errors.brand_name[0] }}</p>
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Modelo</label>
-                            <input v-model="newCar.model" type="text" required class="input mt-1" />
-                            <p v-if="store.errors.model" class="mt-1 text-xs text-red-600">{{ store.errors.model[0] }}</p>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Año</label>
-                            <input v-model="newCar.year" type="number" required class="input mt-1" />
-                            <p v-if="store.errors.year" class="mt-1 text-xs text-red-600">{{ store.errors.year[0] }}</p>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">VIN</label>
-                        <input v-model="newCar.vin" type="text" required class="input mt-1" />
-                        <p v-if="store.errors.vin" class="mt-1 text-xs text-red-600">{{ store.errors.vin[0] }}</p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Precio de compra</label>
-                        <input :value="purchasePriceDisplay" @input="onPriceInput" inputmode="numeric" required class="input mt-1" />
-                        <p v-if="store.errors.purchase_price" class="mt-1 text-xs text-red-600">{{ store.errors.purchase_price[0] }}</p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Fecha de compra</label>
-                        <input v-model="newCar.purchase_date" type="date" required class="input mt-1" />
-                        <p v-if="store.errors.purchase_date" class="mt-1 text-xs text-red-600">{{ store.errors.purchase_date[0] }}</p>
-                    </div>
-                    <!-- Removido campo de cuenta de pago; se usará cuenta por defecto en backend/tienda -->
-                    
-                    <div class="flex justify-end gap-3 mt-6">
-                        <button type="button" @click="showCreateModal = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-zinc-800 dark:text-gray-300 dark:border-zinc-700">Cancelar</button>
-                        <button type="submit" class="btn-primary" :disabled="store.loading">{{ store.loading ? 'Guardando…' : 'Guardar' }}</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
         </AppContainer>
@@ -226,6 +256,7 @@ import { ref, reactive, onMounted, computed } from 'vue';
 import { watch } from 'vue';
 import { useCarsStore } from '../../stores/useCars';
 import { useFinanceStore } from '../../stores/useFinance';
+import { useToast } from "vue-toastification";
 import AppContainer from '../../components/ui/AppContainer.vue';
 import PageHeader from '../../components/ui/PageHeader.vue';
 import DataToolbar from '../../components/ui/DataToolbar.vue';
@@ -237,6 +268,7 @@ import { ArrowUpTrayIcon } from '@heroicons/vue/24/solid';
 
 const store = useCarsStore();
 const financeStore = useFinanceStore();
+const toast = useToast();
 
 const search = ref('');
 let searchTimer = null;
@@ -253,18 +285,16 @@ const filteredBrands = computed(() => {
     return store.brands.filter(b => b.name.toLowerCase().includes(q));
 });
 const showCreateModal = ref(false);
-const successMessage = ref('');
-const toast = reactive({ message: '', type: 'success' });
-const toastClass = computed(() => {
-    return toast.type === 'error'
-        ? 'bg-red-600 text-white'
-        : 'bg-emerald-600 text-white';
+const showSaleModal = ref(false);
+const selectedCar = ref(null);
+const saleForm = reactive({
+    sale_price: '',
+    sale_date: new Date().toISOString().split('T')[0],
+    account_id: ''
 });
-const showToast = (msg, type = 'success') => {
-    toast.message = msg;
-    toast.type = type;
-    setTimeout(() => { toast.message = ''; }, 2500);
-};
+
+const successMessage = ref('');
+
 const imagePreviews = ref([]);
 const imagesInput = ref(null);
 const brandInput = ref('');
@@ -352,9 +382,7 @@ const resetFilters = () => {
 const createCar = async () => {
     const success = await store.createCar(newCar);
     if (success) {
-        successMessage.value = 'Vehículo creado correctamente.';
-        setTimeout(() => { successMessage.value = ''; }, 2500);
-        showToast('Vehículo creado correctamente.', 'success');
+        toast.success('Vehículo creado correctamente.');
         showCreateModal.value = false;
         fetchData();
         // Reset form
@@ -371,7 +399,28 @@ const createCar = async () => {
         imagePreviews.value = [];
         brandInput.value = '';
     } else {
-        showToast('No se pudo crear el vehículo. Revisa los campos.', 'error');
+        toast.error('No se pudo crear el vehículo. Revisa los campos.');
+    }
+};
+
+const openSaleModal = (car) => {
+    selectedCar.value = car;
+    saleForm.sale_price = ''; // Reset price or maybe suggest estimated price?
+    saleForm.sale_date = new Date().toISOString().split('T')[0];
+    saleForm.account_id = '';
+    showSaleModal.value = true;
+};
+
+const processSale = async () => {
+    if (!selectedCar.value) return;
+    
+    try {
+        await store.sellCar(selectedCar.value.id, saleForm);
+        toast.success('Venta registrada correctamente.');
+        showSaleModal.value = false;
+        fetchData();
+    } catch (error) {
+        toast.error('Error al registrar la venta.');
     }
 };
 

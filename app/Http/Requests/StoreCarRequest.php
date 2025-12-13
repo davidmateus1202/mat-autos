@@ -25,7 +25,7 @@ class StoreCarRequest extends FormRequest
             'color' => ['nullable', 'string', 'max:50'],
             'purchase_price' => ['required', 'numeric', 'min:0'],
             'purchase_date' => ['required', 'date'],
-            'account_id' => ['required', 'exists:financial_accounts,id'], // For the initial payment
+            'account_id' => ['nullable', 'exists:financial_accounts,id'], // Optional if user doesn't want to track movement yet
             'images' => ['nullable', 'array'],
             'images.*' => ['file', 'image', 'max:5120'],
         ];

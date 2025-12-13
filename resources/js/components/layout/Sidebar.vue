@@ -27,29 +27,34 @@
           <span class="icon">
             <HomeIcon class="h-4 w-4" />
           </span>
-          <span class="label">Dashboard</span>
+          <span class="label">Inicio</span>
         </RouterLink>
         <RouterLink :to="{ name: 'cars.index' }" class="nav-item" :class="{ 'active': isActive('cars.index') }" @click="closeMenu">
           <span class="icon">
             <TruckIcon class="h-4 w-4" />
           </span>
-          <span class="label">Cars</span>
+          <span class="label">Vehículos</span>
         </RouterLink>
         <RouterLink :to="{ name: 'finance.index' }" class="nav-item" :class="{ 'active': isActive('finance.index') }" @click="closeMenu">
           <span class="icon">
             <CreditCardIcon class="h-4 w-4" />
           </span>
-          <span class="label">Finance</span>
+          <span class="label">Finanzas</span>
         </RouterLink>
       </nav>
 
       <!-- Footer -->
-      <div class="px-4 py-4 border-t border-zinc-200 dark:border-zinc-800">
+      <div class="px-4 py-4 border-t border-zinc-200 dark:border-zinc-800 space-y-3">
+        <button @click="handleLogout" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer">
+            <ArrowRightOnRectangleIcon class="h-4 w-4" />
+            <span>Cerrar Sesión</span>
+        </button>
+
         <div class="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2">
-          <span class="text-xs text-zinc-600">Theme</span>
+          <span class="text-xs text-zinc-600">Tema</span>
           <div class="flex items-center gap-2">
-            <button class="theme-btn" @click="setTheme('light')">Light</button>
-            <button class="theme-btn" @click="setTheme('dark')">Dark</button>
+            <button class="theme-btn" @click="setTheme('light')">Claro</button>
+            <button class="theme-btn" @click="setTheme('dark')">Oscuro</button>
           </div>
         </div>
       </div>
@@ -58,12 +63,15 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
-import { HomeIcon, TruckIcon, CreditCardIcon, SparklesIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { useRoute, useRouter } from 'vue-router'
+import { HomeIcon, TruckIcon, CreditCardIcon, SparklesIcon, XMarkIcon, ArrowRightOnRectangleIcon } from '@heroicons/vue/24/outline'
+import { useAuthStore } from '../../stores/useAuth'
 
 const props = defineProps({ isOpen: { type: Boolean, default: false } })
 const emit = defineEmits(['close'])
 const route = useRoute()
+const router = useRouter()
+const authStore = useAuthStore()
 
 function isActive(name) {
   return route.name === name
@@ -77,6 +85,11 @@ function setTheme(mode) {
   const html = document.documentElement
   if (mode === 'dark') html.classList.add('dark')
   else html.classList.remove('dark')
+}
+
+const handleLogout = async () => {
+    await authStore.logout()
+    router.push({ name: 'login' })
 }
 </script>
 

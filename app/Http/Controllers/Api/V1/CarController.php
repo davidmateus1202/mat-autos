@@ -61,10 +61,13 @@ class CarController extends Controller
         return DB::transaction(function () use ($request) {
             $car = Car::create($request->validated());
 
-            $this->financialService->recordCarPurchase(
-                $car,
-                $request->account_id
-            );
+            // If account_id is provided, record the financial movement
+            if ($request->has('account_id') && $request->account_id) {
+                $this->financialService->recordCarPurchase(
+                    $car,
+                    $request->account_id
+                );
+            }
 
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {

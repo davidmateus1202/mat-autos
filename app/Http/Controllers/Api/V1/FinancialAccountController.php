@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\FinancialAccount;
+use App\Services\FinancialService;
 use Illuminate\Http\Request;
 
 class FinancialAccountController extends Controller
@@ -47,6 +48,24 @@ class FinancialAccountController extends Controller
 
         $account->update($validated);
         return response()->json($account);
+    }
+
+    public function adjustBalance(Request $request, FinancialAccount $account, FinancialService $financialService)
+    {
+        $validated = $request->validate([
+            'amount' => 'required|numeric',
+            'description' => 'required|string|max:255',
+            'date' => 'required|date',
+        ]);
+
+        $financialService->recordManualMovement(
+            $account->id,
+            $validated['amount'],
+            $validated['description'],
+            $validated['date']
+        );
+
+        return response()->json($account->append('balance')->load('movements'));
     }
 
     public function destroy(FinancialAccount $account)

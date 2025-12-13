@@ -82,4 +82,15 @@ class FinancialService
             'movementable_type' => BankLoanPayment::class,
         ]);
     }
+
+    public function recordManualMovement(int $accountId, float $amount, string $description, string $date)
+    {
+        return FinancialMovement::create([
+            'financial_account_id' => $accountId,
+            'type' => 'adjustment',
+            'amount' => $amount,
+            'description' => $description,
+            'movement_date' => $date,
+        ]);
+    }
 }
