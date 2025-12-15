@@ -20,184 +20,28 @@
 
         <LoadingOverlay :visible="store.loading" />
 
-        <!-- Accounts Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-            <!-- Investment Card -->
-            <div class="group relative bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-200 dark:border-zinc-800 hover:shadow-md transition-all duration-300 overflow-hidden">
-                <div class="absolute -right-6 -top-6 h-32 w-32 rounded-full bg-emerald-50 dark:bg-emerald-900/20 group-hover:scale-110 transition-transform duration-500 ease-out"></div>
-                <div class="relative">
-                    <div class="flex items-start justify-between mb-6">
-                        <div class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-500/20 transition-colors">
-                            <TruckIcon class="h-6 w-6" />
-                        </div>
-                        <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">
-                            Activo
-                        </span>
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-1">Inversión en Vehículos</p>
-                        <h3 class="text-lg font-semibold text-zinc-900 dark:text-white mb-4 truncate">Inventario Total</h3>
-                        <div class="flex items-baseline gap-1">
-                            <span class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ formatCurrency(dashboardStore.summary.invested_assets || 0) }}</span>
-                        </div>
-                        <p class="text-xs text-zinc-400 mt-2 font-mono">Capital en inventario</p>
-                    </div>
-                </div>
-            </div>
+        <!-- Consolidated Stats -->
+        <ConsolidatedStats 
+            :total-assets="totalAssets"
+            :total-debt="totalDebt"
+            :available-credit="availableCredit"
+            :net-worth="netWorth"
+            :active-loans-count="activeLoansCount"
+        />
 
-            <div v-for="account in store.accounts" :key="account.id" @click="openAccountDetails(account)" class="cursor-pointer group relative bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-200 dark:border-zinc-800 hover:shadow-md transition-all duration-300 overflow-hidden">
-                <!-- Decorative Background -->
-                <div class="absolute -right-6 -top-6 h-32 w-32 rounded-full bg-zinc-50 dark:bg-zinc-800/50 group-hover:scale-110 transition-transform duration-500 ease-out"></div>
-                
-                <div class="relative">
-                    <div class="flex items-start justify-between mb-6">
-                        <div class="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-500/20 transition-colors">
-                            <component :is="getAccountIcon(account.type)" class="h-6 w-6" />
-                        </div>
-                        <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300">
-                            {{ getAccountTypeLabel(account.type) }}
-                        </span>
-                    </div>
-                    
-                    <div>
-                        <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-1">{{ account.bank_name }}</p>
-                        <h3 class="text-lg font-semibold text-zinc-900 dark:text-white mb-4 truncate" :title="account.name">{{ account.name }}</h3>
-                        
-                        <div class="flex items-baseline gap-1">
-                            <span class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ formatCurrency(account.balance) }}</span>
-                        </div>
-                        <p class="text-xs text-zinc-400 mt-2 font-mono">{{ account.account_number }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Accounts Grid -->
+        <AccountsGrid 
+            :accounts="store.accounts"
+            :invested-assets="investedAssets"
+            @select="openAccountDetails"
+        />
 
         <!-- Loans Section -->
-        <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-            <div class="p-6 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
-                <div>
-                    <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">Préstamos Bancarios</h2>
-                    <p class="text-sm text-zinc-500 dark:text-zinc-400">Seguimiento de créditos activos</p>
-                </div>
-            </div>
-            
-            <div class="hidden md:block rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-                <table class="w-full text-left text-xs lg:text-sm table-fixed">
-                    <thead class="bg-zinc-50 dark:bg-zinc-800/50 text-zinc-500 dark:text-zinc-400">
-                        <tr>
-                            <th class="w-[25%] px-3 lg:px-6 py-4 font-medium truncate">Entidad Bancaria</th>
-                            <th class="w-[15%] px-3 lg:px-6 py-4 font-medium text-right truncate">Cupo Total</th>
-                            <th class="w-[20%] px-3 lg:px-6 py-4 font-medium text-right truncate">Deuda Actual</th>
-                            <th class="w-[15%] px-3 lg:px-6 py-4 font-medium text-right truncate">Disponible</th>
-                            <th class="w-[10%] px-3 lg:px-6 py-4 font-medium text-center truncate">Estado</th>
-                            <th class="w-[15%] px-3 lg:px-6 py-4 font-medium text-right">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
-                        <tr v-if="store.loans.length === 0">
-                            <td colspan="6" class="px-6 py-8 text-center text-zinc-500 dark:text-zinc-400">
-                                No hay préstamos registrados
-                            </td>
-                        </tr>
-                        <tr v-for="loan in store.loans" :key="loan.id" class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
-                            <td class="px-3 lg:px-6 py-4 truncate">
-                                <div class="flex items-center gap-2 lg:gap-3">
-                                    <div class="h-8 w-8 lg:h-10 lg:w-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400 shrink-0">
-                                        <BuildingLibraryIcon class="h-4 w-4 lg:h-5 lg:w-5" />
-                                    </div>
-                                    <div class="min-w-0 overflow-hidden">
-                                        <p class="font-medium text-zinc-900 dark:text-white truncate" :title="loan.bank_name">{{ loan.bank_name }}</p>
-                                        <p class="text-xs text-zinc-500 truncate">Tasa: {{ loan.interest_rate }}%</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-3 lg:px-6 py-4 text-right font-medium text-zinc-900 dark:text-white truncate">
-                                {{ formatCurrency(loan.amount) }}
-                            </td>
-                            <td class="px-3 lg:px-6 py-4 text-right">
-                                <div class="flex flex-col items-end w-full">
-                                    <span class="font-bold text-zinc-900 dark:text-white truncate w-full">{{ formatCurrency(loan.current_debt) }}</span>
-                                    <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 mt-2">
-                                        <div class="bg-indigo-600 h-1.5 rounded-full" :style="{ width: `${Math.min((loan.current_debt / loan.amount) * 100, 100)}%` }"></div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-3 lg:px-6 py-4 text-right font-medium text-emerald-600 dark:text-emerald-400 truncate">
-                                {{ formatCurrency(loan.available_credit) }}
-                            </td>
-                            <td class="px-3 lg:px-6 py-4 text-center">
-                                <span :class="getLoanStatusClass(loan.status)" class="inline-flex items-center rounded-full px-2 lg:px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset truncate max-w-full justify-center">
-                                    {{ getLoanStatusLabel(loan.status) }}
-                                </span>
-                            </td>
-                            <td class="px-3 lg:px-6 py-4 text-right">
-                                <div class="flex flex-col xl:flex-row items-end justify-end gap-2">
-                                    <button v-if="loan.available_credit > 0" @click="openDisburseModal(loan)" class="w-full xl:w-auto text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-xs bg-indigo-50 dark:bg-indigo-900/20 px-2 lg:px-3 py-1.5 rounded-lg transition-colors truncate">
-                                        Desembolsar
-                                    </button>
-                                    <button v-if="loan.current_debt > 0" @click="openPaymentModal(loan)" class="w-full xl:w-auto text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 font-medium text-xs bg-emerald-50 dark:bg-emerald-900/20 px-2 lg:px-3 py-1.5 rounded-lg transition-colors truncate">
-                                        Pagar
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Mobile Card View -->
-            <div class="md:hidden divide-y divide-zinc-200 dark:divide-zinc-800">
-                <div v-if="store.loans.length === 0" class="p-6 text-center text-zinc-500 dark:text-zinc-400">
-                    No hay préstamos registrados
-                </div>
-                <div v-for="loan in store.loans" :key="loan.id" class="p-4 space-y-4">
-                    <div class="flex items-start justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="h-10 w-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400">
-                                <BuildingLibraryIcon class="h-5 w-5" />
-                            </div>
-                            <div>
-                                <p class="font-medium text-zinc-900 dark:text-white">{{ loan.bank_name }}</p>
-                                <p class="text-xs text-zinc-500">Tasa: {{ loan.interest_rate }}%</p>
-                            </div>
-                        </div>
-                        <span :class="getLoanStatusClass(loan.status)" class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset">
-                            {{ getLoanStatusLabel(loan.status) }}
-                        </span>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                            <p class="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Cupo Total</p>
-                            <p class="font-medium text-zinc-900 dark:text-white">{{ formatCurrency(loan.amount) }}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Deuda Actual</p>
-                            <p class="font-bold text-zinc-900 dark:text-white">{{ formatCurrency(loan.current_debt) }}</p>
-                        </div>
-                        <div class="col-span-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
-                            <div class="flex justify-between items-center">
-                                <p class="text-zinc-500 dark:text-zinc-400 text-xs">Disponible</p>
-                                <p class="font-bold text-emerald-600 dark:text-emerald-400">{{ formatCurrency(loan.available_credit) }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5">
-                        <div class="bg-indigo-600 h-1.5 rounded-full" :style="{ width: `${(loan.current_debt / loan.amount) * 100}%` }"></div>
-                    </div>
-
-                    <div class="flex items-center justify-end gap-2 pt-2">
-                        <button v-if="loan.available_credit > 0" @click="openDisburseModal(loan)" class="w-full text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-sm bg-indigo-50 dark:bg-indigo-900/20 px-4 py-2 rounded-lg transition-colors">
-                            Desembolsar
-                        </button>
-                        <button v-if="loan.current_debt > 0" @click="openPaymentModal(loan)" class="w-full text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 font-medium text-sm bg-emerald-50 dark:bg-emerald-900/20 px-4 py-2 rounded-lg transition-colors">
-                            Pagar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <LoansList 
+            :loans="store.loans"
+            @disburse="openDisburseModal"
+            @pay="openPaymentModal"
+        />
 
         <!-- Modals -->
         <!-- Create Account Slide-over -->
@@ -475,19 +319,17 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, computed } from 'vue';
 import { useFinanceStore } from '../../stores/useFinance';
 import { useDashboardsStore } from '../../stores/useDashboards';
 import AppContainer from '../../components/ui/AppContainer.vue';
 import LoadingOverlay from '../../components/ui/LoadingOverlay.vue';
+import ConsolidatedStats from './partials/ConsolidatedStats.vue';
+import AccountsGrid from './partials/AccountsGrid.vue';
+import LoansList from './partials/LoansList.vue';
 import { 
-    BuildingLibraryIcon, 
-    BanknotesIcon, 
-    CreditCardIcon, 
-    WalletIcon, 
     PlusIcon,
     XMarkIcon,
-    TruckIcon,
     ArrowTrendingUpIcon,
     ArrowTrendingDownIcon
 } from '@heroicons/vue/24/outline';
@@ -503,6 +345,35 @@ const showAccountDetailsModal = ref(false);
 const selectedLoan = ref(null);
 const selectedAccount = ref(null);
 const accountDetails = ref(null);
+
+// Computed Properties for Consolidated Stats
+const totalCash = computed(() => {
+    return store.accounts.reduce((sum, account) => sum + Number(account.balance), 0);
+});
+
+const investedAssets = computed(() => {
+    return Number(dashboardStore.summary.invested_assets || 0);
+});
+
+const totalAssets = computed(() => {
+    return totalCash.value + investedAssets.value;
+});
+
+const totalDebt = computed(() => {
+    return store.loans.reduce((sum, loan) => sum + Number(loan.current_debt), 0);
+});
+
+const availableCredit = computed(() => {
+    return store.loans.reduce((sum, loan) => sum + Number(loan.available_credit), 0);
+});
+
+const netWorth = computed(() => {
+    return totalAssets.value - totalDebt.value;
+});
+
+const activeLoansCount = computed(() => {
+    return store.loans.filter(l => l.current_debt > 0).length;
+});
 
 const accountForm = reactive({
     name: '',
@@ -688,46 +559,6 @@ const payLoan = async () => {
             payment_date: new Date().toISOString().split('T')[0], 
             account_id: '' 
         });
-    }
-};
-
-const getLoanStatusClass = (status) => {
-    switch (status) {
-        case 'pending': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300 ring-yellow-600/20';
-        case 'approved': return 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 ring-blue-600/20';
-        case 'disbursed': return 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300 ring-purple-600/20';
-        case 'paid': return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300 ring-emerald-600/20';
-        default: return 'bg-zinc-100 text-zinc-800 dark:bg-zinc-700 dark:text-zinc-300 ring-zinc-600/20';
-    }
-};
-
-const getLoanStatusLabel = (status) => {
-    switch (status) {
-        case 'pending': return 'Pendiente';
-        case 'approved': return 'Aprobado';
-        case 'disbursed': return 'Desembolsado';
-        case 'paid': return 'Pagado';
-        default: return status;
-    }
-};
-
-const getAccountIcon = (type) => {
-    switch (type) {
-        case 'bank': return BuildingLibraryIcon;
-        case 'cash': return BanknotesIcon;
-        case 'credit_card': return CreditCardIcon;
-        case 'digital': return WalletIcon;
-        default: return BuildingLibraryIcon;
-    }
-};
-
-const getAccountTypeLabel = (type) => {
-    switch (type) {
-        case 'bank': return 'Bancaria';
-        case 'cash': return 'Efectivo';
-        case 'credit_card': return 'Crédito';
-        case 'digital': return 'Digital';
-        default: return type;
     }
 };
 
