@@ -3,20 +3,9 @@
 @import "tailwindcss";
 
 :root { --font-sans: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; }
-html, body { font-family: var(--font-sans); }
+html, body { font-family: var(--font-sans); height: 100%; overflow: hidden; }
 
-/* Ocultar barras de scroll en todo el proyecto */
-html, body, * {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE y Edge antiguo */
-}
 
-/* Chrome, Safari y Edge basado en Chromium */
-html::-webkit-scrollbar,
-body::-webkit-scrollbar,
-*::-webkit-scrollbar {
-  display: none;
-}
 
 @layer components {
   .input {
@@ -35,6 +24,12 @@ select.input { @apply appearance-none pr-9; }
 
 /* Eliminar borde azul por defecto en inputs/select (Chrome) */
 input, select, textarea { outline: none; }
+
+/* Prevent iOS zoom on form focus and keep touch gestures crisp on mobile */
+@media (max-width: 640px) {
+  input, select, textarea { font-size: 16px; }
+  body { touch-action: manipulation; }
+}
 
 /* Centrar contenido en controles si se requiere */
 .input-center { @apply text-center; }

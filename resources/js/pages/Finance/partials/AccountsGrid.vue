@@ -12,11 +12,11 @@
                         Activo
                     </span>
                 </div>
-                <div>
+                <div class="min-w-0">
                     <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-1">Inversión en Vehículos</p>
                     <h3 class="text-lg font-semibold text-zinc-900 dark:text-white mb-4 truncate">Inventario Total</h3>
-                    <div class="flex items-baseline gap-1">
-                        <span class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ formatCurrency(investedAssets) }}</span>
+                    <div class="flex items-baseline gap-1 min-w-0">
+                        <span class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight break-words leading-tight">{{ formatCurrency(investedAssets) }}</span>
                     </div>
                     <p class="text-xs text-zinc-400 mt-2 font-mono">Capital en inventario</p>
                 </div>
@@ -38,12 +38,12 @@
                     </span>
                 </div>
                 
-                <div>
+                <div class="min-w-0">
                     <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-1">{{ account.bank_name }}</p>
                     <h3 class="text-lg font-semibold text-zinc-900 dark:text-white mb-4 truncate" :title="account.name">{{ account.name }}</h3>
                     
-                    <div class="flex items-baseline gap-1">
-                        <span class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ formatCurrency(account.balance) }}</span>
+                    <div class="flex items-baseline gap-1 min-w-0">
+                        <span class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight break-words leading-tight">{{ formatCurrency(account.balance) }}</span>
                     </div>
                     <p class="text-xs text-zinc-400 mt-2 font-mono">{{ account.account_number }}</p>
                 </div>

@@ -7,6 +7,7 @@ const Dashboard = () => import('../pages/Dashboards/Index.vue');
 const CarsIndex = () => import('../pages/Cars/Index.vue');
 const CarsShow = () => import('../pages/Cars/Show.vue');
 const FinanceIndex = () => import('../pages/Finance/Index.vue');
+const Profile = () => import('../pages/Profile/Index.vue');
 const NotFound = () => import('../pages/NotFound.vue');
 
 const routes = [
@@ -38,6 +39,12 @@ const routes = [
         path: '/finance',
         name: 'finance.index',
         component: FinanceIndex,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/perfil',
+        name: 'profile',
+        component: Profile,
         meta: { requiresAuth: true }
     },
     {

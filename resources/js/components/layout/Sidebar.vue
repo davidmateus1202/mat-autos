@@ -41,6 +41,12 @@
           </span>
           <span class="label">Finanzas</span>
         </RouterLink>
+        <RouterLink :to="{ name: 'profile' }" class="nav-item" :class="{ 'active': isActive('profile') }" @click="closeMenu">
+          <span class="icon">
+            <UserCircleIcon class="h-4 w-4" />
+          </span>
+          <span class="label">Perfil</span>
+        </RouterLink>
       </nav>
 
       <!-- Footer -->
@@ -64,7 +70,7 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { HomeIcon, TruckIcon, CreditCardIcon, SparklesIcon, XMarkIcon, ArrowRightOnRectangleIcon } from '@heroicons/vue/24/outline'
+import { HomeIcon, TruckIcon, CreditCardIcon, SparklesIcon, XMarkIcon, ArrowRightOnRectangleIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
 import { useAuthStore } from '../../stores/useAuth'
 
 const props = defineProps({ isOpen: { type: Boolean, default: false } })
