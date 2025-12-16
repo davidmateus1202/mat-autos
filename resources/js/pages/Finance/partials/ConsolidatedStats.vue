@@ -8,12 +8,12 @@
                 </div>
                 <div class="min-w-0">
                     <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Patrimonio Consolidado</p>
-                    <h3 class="text-2xl font-bold text-zinc-900 dark:text-white break-words leading-tight">{{ formatCurrency(netWorth) }}</h3>
+                    <h3 class="text-2xl font-bold text-zinc-900 dark:text-white break-word leading-tight">{{ formatCurrency(netWorth) }}</h3>
                 </div>
             </div>
             <div class="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex justify-between text-sm gap-3">
                 <span class="text-zinc-500">Activos Totales</span>
-                <span class="font-medium text-zinc-900 dark:text-white text-right break-words leading-tight">{{ formatCurrency(totalAssets) }}</span>
+                <span class="font-medium text-zinc-900 dark:text-white text-right break-word leading-tight">{{ formatCurrency(totalAssets) }}</span>
             </div>
         </div>
 
@@ -25,7 +25,7 @@
                 </div>
                 <div class="min-w-0">
                     <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Deuda Total</p>
-                    <h3 class="text-2xl font-bold text-zinc-900 dark:text-white break-words leading-tight">{{ formatCurrency(totalDebt) }}</h3>
+                    <h3 class="text-2xl font-bold text-zinc-900 dark:text-white break-word leading-tight">{{ formatCurrency(totalDebt) }}</h3>
                 </div>
             </div>
             <div class="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex justify-between text-sm gap-3">
@@ -42,7 +42,7 @@
                 </div>
                 <div class="min-w-0">
                     <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Cupo Disponible</p>
-                    <h3 class="text-2xl font-bold text-zinc-900 dark:text-white break-words leading-tight">{{ formatCurrency(availableCredit) }}</h3>
+                    <h3 class="text-2xl font-bold text-zinc-900 dark:text-white break-word leading-tight">{{ formatCurrency(availableCredit) }}</h3>
                 </div>
             </div>
             <div class="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex justify-between text-sm gap-3">

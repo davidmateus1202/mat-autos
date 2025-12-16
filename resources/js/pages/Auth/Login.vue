@@ -6,83 +6,83 @@
                 <LoadingOverlay :visible="authStore.loading" />
 
                 <!-- Brand + Toggle -->
-                <div class="flex items-center justify-between">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div class="flex flex-col">
-                        <span class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">VentaCarros</span>
-                        <span class="text-sm text-gray-500 dark:text-gray-400">Explora más. Vive mejor.</span>
+                        <span class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">VentaCarros</span>
+                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Explora más. Vive mejor.</span>
                     </div>
-                    <div class="inline-flex gap-3">
-                        <button type="button" @click="isRegister = true" :class="isRegister ? 'bg-black text-white' : 'border border-zinc-300 dark:border-zinc-700 text-gray-900 dark:text-gray-100 hover:bg-zinc-50 dark:hover:bg-zinc-800'" class="px-4 py-2 rounded-lg text-sm transition-colors cursor-pointer hover:opacity-80">Crear cuenta</button>
-                        <button type="button" @click="isRegister = false" :class="!isRegister ? 'bg-black text-white' : 'border border-zinc-300 dark:border-zinc-700 text-gray-900 dark:text-gray-100 hover:bg-zinc-50 dark:hover:bg-zinc-800'" class="px-4 py-2 rounded-lg text-sm transition-colors cursor-pointer hover:opacity-80">Iniciar sesión</button>
+                    <div class="inline-flex gap-2">
+                        <button type="button" @click="isRegister = true" :class="isRegister ? 'bg-black text-white' : 'border border-zinc-300 dark:border-zinc-700 text-gray-900 dark:text-gray-100 hover:bg-zinc-50 dark:hover:bg-zinc-800'" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm transition-colors cursor-pointer hover:opacity-80">Crear</button>
+                        <button type="button" @click="isRegister = false" :class="!isRegister ? 'bg-black text-white' : 'border border-zinc-300 dark:border-zinc-700 text-gray-900 dark:text-gray-100 hover:bg-zinc-50 dark:hover:bg-zinc-800'" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm transition-colors cursor-pointer hover:opacity-80">Sesión</button>
                     </div>
                 </div>
 
                 <!-- Headline -->
-                <h2 class="mt-10 text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">{{ isRegister ? 'Crea tu cuenta' : 'Tu viaje comienza aquí' }}</h2>
-                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ isRegister ? 'Regístrate para empezar' : 'Ingresa con tu cuenta activa' }}</p>
+                <h2 class="mt-6 sm:mt-10 text-xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">{{ isRegister ? 'Crea tu cuenta' : 'Tu viaje comienza aquí' }}</h2>
+                <p class="mt-1 sm:mt-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">{{ isRegister ? 'Regístrate para empezar' : 'Ingresa con tu cuenta activa' }}</p>
 
                 <!-- Social buttons -->
-                <div class="mt-4 grid grid-cols-3 gap-3">
-                    <a href="/auth/apple/redirect" aria-label="Continuar con Apple" class="h-10 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 flex items-center justify-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                        <DevicePhoneMobileIcon class="h-5 w-5" />
-                        <span>Apple</span>
+                <div class="mt-3 sm:mt-4 grid grid-cols-3 gap-2">
+                    <a href="/auth/apple/redirect" aria-label="Continuar con Apple" class="h-9 sm:h-10 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 flex items-center justify-center gap-1 text-xs font-medium text-gray-900 dark:text-gray-100">
+                        <DevicePhoneMobileIcon class="h-4 w-4 sm:h-5 sm:w-5" />
+                        <span class="hidden sm:inline">Apple</span>
                     </a>
-                    <a href="/auth/google/redirect" aria-label="Continuar con Google" class="h-10 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 flex items-center justify-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                        <GlobeAltIcon class="h-5 w-5" />
-                        <span>Google</span>
+                    <a href="/auth/google/redirect" aria-label="Continuar con Google" class="h-9 sm:h-10 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 flex items-center justify-center gap-1 text-xs font-medium text-gray-900 dark:text-gray-100">
+                        <GlobeAltIcon class="h-4 w-4 sm:h-5 sm:w-5" />
+                        <span class="hidden sm:inline">Google</span>
                     </a>
-                    <a href="/auth/github/redirect" aria-label="Continuar con GitHub" class="h-10 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 flex items-center justify-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                        <CodeBracketIcon class="h-5 w-5" />
-                        <span>GitHub</span>
+                    <a href="/auth/github/redirect" aria-label="Continuar con GitHub" class="h-9 sm:h-10 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 flex items-center justify-center gap-1 text-xs font-medium text-gray-900 dark:text-gray-100">
+                        <CodeBracketIcon class="h-4 w-4 sm:h-5 sm:w-5" />
+                        <span class="hidden sm:inline">GitHub</span>
                     </a>
                 </div>
 
                 <!-- Divider -->
-                <div class="my-6 flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+                <div class="my-3 sm:my-6 flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
                     <div class="h-px flex-1 bg-zinc-200 dark:bg-zinc-800"></div>
                     <span>o</span>
                     <div class="h-px flex-1 bg-zinc-200 dark:bg-zinc-800"></div>
                 </div>
 
                 <!-- Login/Register form -->
-                <form class="space-y-4" @submit.prevent="handleSubmit">
+                <form class="space-y-3 sm:space-y-4" @submit.prevent="handleSubmit">
                     <div v-if="isRegister">
-                        <label class="block text-sm font-medium text-gray-900 dark:text-gray-200">Nombre completo</label>
+                        <label class="block text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-200">Nombre completo</label>
                         <input v-model="form.name" type="text" required
-                                     class="mt-1 w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:border-primary focus:ring-primary px-3 py-2" />
+                                     class="mt-1 w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:border-primary focus:ring-primary px-3 py-2 text-sm" />
                         <p v-if="authStore.errors.name" class="mt-1 text-xs text-red-600">{{ authStore.errors.name[0] }}</p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-900 dark:text-gray-200">Correo electrónico</label>
+                        <label class="block text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-200">Correo electrónico</label>
                         <input v-model="form.email" type="email" autocomplete="email" required
-                                     class="mt-1 w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:border-primary focus:ring-primary px-3 py-2" />
+                                     class="mt-1 w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:border-primary focus:ring-primary px-3 py-2 text-sm" />
                         <p v-if="authStore.errors.email" class="mt-1 text-xs text-red-600">{{ authStore.errors.email[0] }}</p>
                     </div>
                     <div>
                         <div class="flex items-center justify-between">
-                            <label class="block text-sm font-medium text-gray-900 dark:text-gray-200">Contraseña</label>
-                            <a v-if="!isRegister" href="#" class="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400">¿Olvidaste tu contraseña?</a>
+                            <label class="block text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-200">Contraseña</label>
+                            <a v-if="!isRegister" href="#" class="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400">¿Olvidaste?</a>
                         </div>
                         <div class="relative mt-1">
                             <input v-model="form.password" type="password" autocomplete="current-password" required
-                                         class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:border-primary focus:ring-primary px-3 py-2" />
+                                         class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:border-primary focus:ring-primary px-3 py-2 text-sm" />
                             <p v-if="authStore.errors.password" class="mt-1 text-xs text-red-600">{{ authStore.errors.password[0] }}</p>
                         </div>
                     </div>
                     <div v-if="isRegister">
-                        <label class="block text-sm font-medium text-gray-900 dark:text-gray-200">Confirmar contraseña</label>
+                        <label class="block text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-200">Confirmar contraseña</label>
                         <input v-model="form.password_confirmation" type="password" required
-                                     class="mt-1 w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:border-primary focus:ring-primary px-3 py-2" />
+                                     class="mt-1 w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:border-primary focus:ring-primary px-3 py-2 text-sm" />
                     </div>
                     <div v-if="!isRegister" class="flex items-center justify-between">
-                        <label class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        <label class="flex items-center gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                             <input type="checkbox" class="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500" />
                             Recuérdame
                         </label>
                     </div>
 
                     <button type="submit" :disabled="authStore.loading" :aria-busy="authStore.loading"
-                                    class="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-black px-4 py-2 text-white font-medium hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black disabled:opacity-50 cursor-pointer transition-all">
+                                    class="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-black px-4 py-2 sm:py-2.5 text-sm sm:text-base text-white font-medium hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black disabled:opacity-50 cursor-pointer transition-all">
                         {{ isRegister ? 'Crear cuenta' : 'Iniciar sesión' }}
                     </button>
                 </form>

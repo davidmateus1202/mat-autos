@@ -112,10 +112,10 @@
             <div class="fixed inset-0 bg-black/50 transition-opacity"></div>
             <div class="fixed inset-0 overflow-hidden">
                 <div class="absolute inset-0 overflow-hidden">
-                    <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-                        <div class="pointer-events-auto w-screen max-w-md transform transition ease-in-out duration-500 sm:duration-700">
-                            <div class="flex h-full flex-col overflow-y-scroll bg-white dark:bg-zinc-900 shadow-xl">
-                                <div class="px-4 py-6 sm:px-6 border-b border-zinc-200 dark:border-zinc-800">
+                    <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-10">
+                        <div class="pointer-events-auto w-screen sm:max-w-md transform transition ease-in-out duration-500 sm:duration-700">
+                            <div class="flex h-full flex-col bg-white dark:bg-zinc-900 shadow-xl">
+                                <div class="px-4 py-6 sm:px-6 border-b border-zinc-200 dark:border-zinc-800 shrink-0">
                                     <div class="flex items-start justify-between">
                                         <h2 class="text-lg font-medium text-gray-900 dark:text-white" id="slide-over-title">Agregar vehículo</h2>
                                         <div class="ml-3 flex h-7 items-center">
@@ -127,7 +127,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="relative mt-6 flex-1 px-4 sm:px-6">
+                                <div class="relative flex-1 overflow-y-auto px-4 sm:px-6 py-6">
                                     <form @submit.prevent="createCar" class="space-y-6 pb-20">
                                         <div v-if="successMessage" class="rounded-lg bg-emerald-50 text-emerald-700 px-3 py-2 text-sm">
                                             {{ successMessage }}
