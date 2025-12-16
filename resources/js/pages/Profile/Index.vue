@@ -27,7 +27,7 @@
                                     {{ initials }}
                                 </div>
 
-                                <div class="space-y-2 sm:space-y-3 drop-shadow z-50 text-center sm:text-left flex-1">
+                                <div class="space-y-2 sm:space-y-3 drop-shadow z-30 text-center sm:text-left flex-1">
                                     <div>
                                         <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight text-white mb-0 sm:mb-1">{{
                                             userName }}</h1>
