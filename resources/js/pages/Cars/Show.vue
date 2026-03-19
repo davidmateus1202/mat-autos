@@ -1,7 +1,5 @@
 <template>
-    <div class="flex flex-col h-screen bg-white dark:bg-zinc-950">
-        <!-- Scrollable content area -->
-        <div class="flex-1 overflow-y-auto">
+    <div class="min-h-full bg-transparent">
             <AppContainer>
                 <div v-if="store.loading && !store.currentCar" class="py-8">
                     <LoadingOverlay :visible="true" />
@@ -242,7 +240,6 @@
             </div>
         </div>
             </AppContainer>
-        </div>
     </div>
 </template>
 

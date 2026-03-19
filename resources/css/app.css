@@ -1,37 +1,121 @@
-/* Fuente Poppins para toda la app: debe ir antes de todo */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-:root { --font-sans: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; }
-html, body { font-family: var(--font-sans); height: 100%; }
+:root {
+    --font-sans: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    --page-bg: #f8fafc;
+    --page-fg: #111827;
+    --surface-bg: #ffffff;
+    --surface-border: rgba(228, 228, 231, 0.9);
+    --input-bg: #f8fafc;
+    --input-border: #d4d4d8;
+    --input-placeholder: #9ca3af;
+    --input-focus-border: #4f46e5;
+    --input-focus-ring: rgba(79, 70, 229, 0.16);
+    --button-bg: #111827;
+    --button-bg-hover: #1f2937;
+    --button-fg: #ffffff;
+}
 
+html.dark {
+    --page-bg: #09090b;
+    --page-fg: #f4f4f5;
+    --surface-bg: #18181b;
+    --surface-border: rgba(39, 39, 42, 0.95);
+    --input-bg: #111827;
+    --input-border: #3f3f46;
+    --input-placeholder: #71717a;
+    --input-focus-border: #6366f1;
+    --input-focus-ring: rgba(99, 102, 241, 0.22);
+    --button-bg: #fafafa;
+    --button-bg-hover: #e4e4e7;
+    --button-fg: #111827;
+}
 
+html,
+body,
+#app {
+    min-height: 100%;
+}
 
+#app {
+    background-color: var(--page-bg);
+    color: var(--page-fg);
+}
 
+html {
+    background-color: var(--page-bg);
+    color-scheme: light;
+}
+
+html.dark {
+    color-scheme: dark;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--page-bg);
+    color: var(--page-fg);
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+}
+
+body[data-scroll-locked='true'],
+html[data-scroll-locked='true'] {
+    overflow: hidden;
+}
+
+.card {
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid var(--surface-border);
+    background-color: var(--surface-bg);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
 
 .input {
     width: 100%;
     border-radius: 0.75rem;
-    border: 1px solid #e5e7eb;
-    background-color: #ffffff;
-    color: #111827;
-    padding: 1rem;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
+    color: var(--page-fg);
+    padding: 0.75rem 1rem;
     font-size: 0.875rem;
-    transition: all 0.2s;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.input::placeholder {
+    color: var(--input-placeholder);
+}
+
+.input:focus,
+.input:focus-within {
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 3px var(--input-focus-ring);
+}
+
+select.input {
+    appearance: none;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.25rem 1.25rem;
+}
+
+.dark select.input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23A1A1AA' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+}
+
+input,
+select,
+textarea {
     outline: none;
 }
-.input:focus-within {
-    border-color: #111827;
-}
 
-.dark .input {
-    border-color: #4b5563;
-    background-color: #111827;
-    color: #f3f4f6;
-}
-
-.dark .input:focus-within {
-    border-color: #f3f4f6;
+.input-center {
+    text-align: center;
 }
 
 .btn-primary {
@@ -39,28 +123,19 @@ html, body { font-family: var(--font-sans); height: 100%; }
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background-color: #111827;
-    color: #ffffff;
-    padding: 0.625rem 1rem;
-    border-radius: 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: all 0.2s;
-    cursor: pointer;
     border: none;
-}
-
-.dark .btn-primary {
-    background-color: #ffffff;
-    color: #111827;
+    border-radius: 0.75rem;
+    background-color: var(--button-bg);
+    color: var(--button-fg);
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    cursor: pointer;
 }
 
 .btn-primary:hover {
-    background-color: #374151;
-}
-
-.dark .btn-primary:hover {
-    background-color: #f3f4f6;
+    background-color: var(--button-bg-hover);
 }
 
 .btn-primary:disabled {
@@ -68,31 +143,34 @@ html, body { font-family: var(--font-sans); height: 100%; }
     cursor: not-allowed;
 }
 
-/* Inputs modernos (aplica a input, select, textarea) */
-.input { width: 100%; border-radius: 0.75rem; background-color: #f3f4f6; padding: 0.5rem 1rem; font-size: 0.875rem; color: #111827; border: 1px solid #d1d5db; outline: none; transition: all 0.2s; }
-.input::placeholder { color: #9ca3af; }
-.dark .input { background-color: #1f2937; color: #f3f4f6; border-color: #4b5563; }
-.input:focus { border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
-.dark .input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
-select.input { appearance: none; padding-right: 2.25rem; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; }
-
-/* Eliminar borde azul por defecto en inputs/select (Chrome) */
-input, select, textarea { outline: none; }
-
-/* Prevent iOS zoom on form focus and keep touch gestures crisp on mobile */
-@media (max-width: 640px) {
-  input, select, textarea { font-size: 16px; }
-  body { touch-action: manipulation; }
+.btn-black {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    background-color: #000000;
+    padding: 0.625rem 1rem;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
 }
 
-/* Centrar contenido en controles si se requiere */
-.input-center { text-align: center; }
+.btn-black:hover {
+    opacity: 0.9;
+}
 
-/* Botones */
-.btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0.5rem; background-color: #000000; padding: 0.5rem 1rem; color: #ffffff; font-weight: 500; font-size: 0.875rem; transition: opacity 0.2s; cursor: pointer; }
-.btn-primary:hover { opacity: 0.9; }
-.dark .btn-primary { background-color: #000000; }
+@media (max-width: 640px) {
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
 
-.btn-black { display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0.5rem; background-color: #000000; padding: 0.5rem 1rem; color: #ffffff; font-weight: 500; font-size: 0.875rem; transition: opacity 0.2s; cursor: pointer; }
-.btn-black:hover { opacity: 0.9; }
+    body {
+        touch-action: manipulation;
+        -webkit-text-size-adjust: 100%;
+    }
+}
 

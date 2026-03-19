@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
         <!-- Total Consolidated Assets -->
         <div class="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-200 dark:border-zinc-800">
             <div class="flex items-center gap-4">
@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex justify-between text-sm gap-3">
-                <span class="text-zinc-500">Activos Totales</span>
+                <span class="text-zinc-500 dark:text-zinc-400">Activos Totales</span>
                 <span class="font-medium text-zinc-900 dark:text-white text-right break-word leading-tight">{{ formatCurrency(totalAssets) }}</span>
             </div>
         </div>
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex justify-between text-sm gap-3">
-                <span class="text-zinc-500">Préstamos Activos</span>
+                <span class="text-zinc-500 dark:text-zinc-400">Préstamos Activos</span>
                 <span class="font-medium text-zinc-900 dark:text-white">{{ activeLoansCount }}</span>
             </div>
         </div>
@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex justify-between text-sm gap-3">
-                <span class="text-zinc-500">Capacidad de Endeudamiento</span>
+                <span class="text-zinc-500 dark:text-zinc-400">Capacidad de Endeudamiento</span>
                 <span class="font-medium text-emerald-600 dark:text-emerald-400">Disponible</span>
             </div>
         </div>

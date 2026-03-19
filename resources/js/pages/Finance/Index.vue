@@ -1,5 +1,5 @@
 <template>
-    <AppContainer>
+    <AppContainer class="min-h-full">
         <!-- Header Section -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
@@ -51,7 +51,7 @@
             </Transition>
 
             <Transition enter-active-class="transform transition ease-in-out duration-500 sm:duration-700" enter-from-class="translate-x-full" enter-to-class="translate-x-0" leave-active-class="transform transition ease-in-out duration-500 sm:duration-700" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                <div v-if="showAccountModal" class="fixed inset-y-0 right-0 z-50 w-screen max-w-md bg-white dark:bg-zinc-900 shadow-2xl flex flex-col h-full border-l border-zinc-200 dark:border-zinc-800">
+                <div v-if="showAccountModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-md flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
                     <div class="flex items-center justify-between px-6 py-6 bg-zinc-900 text-white">
                         <h2 class="text-lg font-semibold">Nueva Cuenta Financiera</h2>
                         <button @click="showAccountModal = false" class="text-zinc-400 hover:text-white transition-colors">
@@ -102,7 +102,7 @@
             </Transition>
 
             <Transition enter-active-class="transform transition ease-in-out duration-500 sm:duration-700" enter-from-class="translate-x-full" enter-to-class="translate-x-0" leave-active-class="transform transition ease-in-out duration-500 sm:duration-700" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                <div v-if="showLoanModal" class="fixed inset-y-0 right-0 z-50 w-screen max-w-md bg-white dark:bg-zinc-900 shadow-2xl flex flex-col h-full border-l border-zinc-200 dark:border-zinc-800">
+                <div v-if="showLoanModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-md flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
                     <div class="flex items-center justify-between px-6 py-6 bg-zinc-900 text-white">
                         <h2 class="text-lg font-semibold">Nuevo Préstamo Bancario</h2>
                         <button @click="showLoanModal = false" class="text-zinc-400 hover:text-white transition-colors">
@@ -144,7 +144,7 @@
             </Transition>
 
             <Transition enter-active-class="transform transition ease-in-out duration-500 sm:duration-700" enter-from-class="translate-x-full" enter-to-class="translate-x-0" leave-active-class="transform transition ease-in-out duration-500 sm:duration-700" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                <div v-if="showDisburseModal" class="fixed inset-y-0 right-0 z-50 w-screen max-w-md bg-white dark:bg-zinc-900 shadow-2xl flex flex-col h-full border-l border-zinc-200 dark:border-zinc-800">
+                <div v-if="showDisburseModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-md flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
                     <div class="flex items-center justify-between px-6 py-6 bg-zinc-900 text-white">
                         <h2 class="text-lg font-semibold">Desembolsar Préstamo</h2>
                         <button @click="showDisburseModal = false" class="text-zinc-400 hover:text-white transition-colors">
@@ -186,7 +186,7 @@
             </Transition>
 
             <Transition enter-active-class="transform transition ease-in-out duration-500 sm:duration-700" enter-from-class="translate-x-full" enter-to-class="translate-x-0" leave-active-class="transform transition ease-in-out duration-500 sm:duration-700" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                <div v-if="showPaymentModal" class="fixed inset-y-0 right-0 z-50 w-screen max-w-md bg-white dark:bg-zinc-900 shadow-2xl flex flex-col h-full border-l border-zinc-200 dark:border-zinc-800">
+                <div v-if="showPaymentModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-md flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
                     <div class="flex items-center justify-between px-6 py-6 bg-zinc-900 text-white">
                         <h2 class="text-lg font-semibold">Pagar Cuota de Préstamo</h2>
                         <button @click="showPaymentModal = false" class="text-zinc-400 hover:text-white transition-colors">
@@ -231,7 +231,7 @@
             </Transition>
 
             <Transition enter-active-class="transform transition ease-in-out duration-500 sm:duration-700" enter-from-class="translate-x-full" enter-to-class="translate-x-0" leave-active-class="transform transition ease-in-out duration-500 sm:duration-700" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                <div v-if="showAccountDetailsModal" class="fixed inset-y-0 right-0 z-50 w-screen max-w-md bg-white dark:bg-zinc-900 shadow-2xl flex flex-col h-full border-l border-zinc-200 dark:border-zinc-800">
+                <div v-if="showAccountDetailsModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-md flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
                     <!-- Header -->
                     <div class="px-6 py-6 bg-zinc-900 text-white">
                         <div class="flex items-center justify-between mb-4">
@@ -322,6 +322,7 @@
 import { ref, reactive, onMounted, computed } from 'vue';
 import { useFinanceStore } from '../../stores/useFinance';
 import { useDashboardsStore } from '../../stores/useDashboards';
+import { useBodyScrollLock } from '../../composables/useBodyScrollLock';
 import AppContainer from '../../components/ui/AppContainer.vue';
 import LoadingOverlay from '../../components/ui/LoadingOverlay.vue';
 import ConsolidatedStats from './partials/ConsolidatedStats.vue';
@@ -345,6 +346,9 @@ const showAccountDetailsModal = ref(false);
 const selectedLoan = ref(null);
 const selectedAccount = ref(null);
 const accountDetails = ref(null);
+const isOverlayOpen = computed(() => showAccountModal.value || showLoanModal.value || showDisburseModal.value || showPaymentModal.value || showAccountDetailsModal.value);
+
+useBodyScrollLock(isOverlayOpen);
 
 // Computed Properties for Consolidated Stats
 const totalCash = computed(() => {

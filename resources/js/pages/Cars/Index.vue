@@ -1,7 +1,5 @@
 <template>
-    <div class="flex flex-col h-screen bg-white dark:bg-zinc-950">
-        <!-- Scrollable content area (banner + content) -->
-        <div class="flex-1 overflow-y-auto">
+    <div class="min-h-full bg-transparent">
             <!-- Banner hero - Scrolls with content -->
             <div class="relative overflow-hidden w-full">
                 <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop" alt="Banner vehículos" class="w-full h-55 md:h-80 object-cover" />
@@ -24,7 +22,7 @@
                     <div class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400">
                         <MagnifyingGlassIcon class="h-5 w-5" />
                     </div>
-                    <button v-if="search" @click="clearSearch" class="absolute right-9 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-700">
+                    <button v-if="search" @click="clearSearch" class="absolute right-9 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200">
                         <XMarkIcon class="h-5 w-5" />
                     </button>
                 </div>
@@ -48,7 +46,7 @@
         </div>
 
         <div v-if="store.loading" class="mt-6">
-            <SkeletonRows :count="5" /> cursor-pointer hover:opacity-80
+            <SkeletonRows :count="5" />
         </div>
 
         <div v-else class="mt-6">
@@ -66,7 +64,7 @@
                         <div class="flex items-start justify-between">
                             <div>
                                 <h3 class="text-base font-semibold text-zinc-900 dark:text-white">{{ car.brand.name }} {{ car.model }}</h3>
-                                <p class="text-xs text-zinc-500">{{ car.year }}</p>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">{{ car.year }}</p>
                             </div>
                             <span :class="getStatusClass(car.status)" class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset">
                                 {{ estadoLabel(car.status) }}
@@ -74,11 +72,11 @@
                         </div>
                         <div class="grid grid-cols-2 gap-4 text-sm">
                             <div>
-                                <p class="text-xs text-zinc-500">Precio de compra</p>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Precio de compra</p>
                                 <p class="font-medium text-zinc-900 dark:text-white">{{ formatCurrency(car.purchase_price) }}</p>
                             </div>
                             <div class="text-right">
-                                <p class="text-xs text-zinc-500">Precio de venta</p>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400">Precio de venta</p>
                                 <p class="font-medium text-zinc-900 dark:text-white">{{ car.sale_price ? formatCurrency(car.sale_price) : '-' }}</p>
                             </div>
                         </div>
@@ -95,7 +93,7 @@
 
             <!-- Paginación -->
             <div class="mt-6 flex items-center justify-between">
-                <p class="text-sm text-zinc-600">Mostrando página {{ store.pagination.current_page }} de {{ store.pagination.last_page }}</p>
+                <p class="text-sm text-zinc-600 dark:text-zinc-400">Mostrando página {{ store.pagination.current_page }} de {{ store.pagination.last_page }}</p>
                 <div class="flex items-center gap-2">
                     <button class="inline-flex items-center rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800" :disabled="store.pagination.current_page <= 1" @click="goToPage(store.pagination.current_page - 1)">Anterior</button>
                     <button class="inline-flex items-center rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800" :disabled="store.pagination.current_page >= store.pagination.last_page" @click="goToPage(store.pagination.current_page + 1)">Siguiente</button>
@@ -129,7 +127,7 @@
                                 </div>
                                 <div class="relative flex-1 overflow-y-auto px-4 sm:px-6 py-6">
                                     <form @submit.prevent="createCar" class="space-y-6 pb-20">
-                                        <div v-if="successMessage" class="rounded-lg bg-emerald-50 text-emerald-700 px-3 py-2 text-sm">
+                                        <div v-if="successMessage" class="rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300">
                                             {{ successMessage }}
                                         </div>
                                         <!-- Imágenes primero -->
@@ -190,7 +188,7 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <p class="mt-1 text-xs text-zinc-500">Si no aparece la marca, puedes escribirla y la crearemos.</p>
+                                            <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Si no aparece la marca, puedes escribirla y la crearemos.</p>
                                             <p v-if="store.errors.brand_id" class="mt-1 text-xs text-red-600">{{ store.errors.brand_id[0] }}</p>
                                             <p v-if="store.errors.brand_name" class="mt-1 text-xs text-red-600">{{ store.errors.brand_name[0] }}</p>
                                         </div>
@@ -230,7 +228,7 @@
                                                     {{ account.name }} ({{ formatCurrency(account.balance) }})
                                                 </option>
                                             </select>
-                                            <p class="mt-1 text-xs text-zinc-500">El monto se descontará de esta cuenta.</p>
+                                            <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">El monto se descontará de esta cuenta.</p>
                                             <p v-if="store.errors.account_id" class="mt-1 text-xs text-red-600">{{ store.errors.account_id[0] }}</p>
                                         </div>
                                         
@@ -247,7 +245,6 @@
             </div>
         </div>
         </AppContainer>
-        </div>
     </div>
 </template>
 
@@ -257,6 +254,7 @@ import { watch } from 'vue';
 import { useCarsStore } from '../../stores/useCars';
 import { useFinanceStore } from '../../stores/useFinance';
 import { useToast } from "vue-toastification";
+    import { useBodyScrollLock } from '../../composables/useBodyScrollLock';
 import AppContainer from '../../components/ui/AppContainer.vue';
 import PageHeader from '../../components/ui/PageHeader.vue';
 import DataToolbar from '../../components/ui/DataToolbar.vue';
@@ -287,11 +285,14 @@ const filteredBrands = computed(() => {
 const showCreateModal = ref(false);
 const showSaleModal = ref(false);
 const selectedCar = ref(null);
+const isOverlayOpen = computed(() => showCreateModal.value || showSaleModal.value);
 const saleForm = reactive({
     sale_price: '',
     sale_date: new Date().toISOString().split('T')[0],
     account_id: ''
 });
+
+useBodyScrollLock(isOverlayOpen);
 
 const successMessage = ref('');
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen w-full flex items-center justify-center bg-teal-900/10 dark:bg-zinc-950 px-4 py-8">
+    <div class="flex min-h-dvh w-full items-center justify-center overflow-x-clip bg-teal-900/10 px-4 py-8 dark:bg-zinc-950">
         <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 bg-white dark:bg-zinc-900 rounded-[28px] shadow-2xl overflow-hidden ring-1 ring-zinc-200/70 dark:ring-zinc-800">
             <!-- Left: Form -->
             <div class="relative p-8 sm:p-10 lg:p-12">
@@ -12,8 +12,8 @@
                         <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Explora más. Vive mejor.</span>
                     </div>
                     <div class="inline-flex gap-2">
-                        <button type="button" @click="isRegister = true" :class="isRegister ? 'bg-black text-white' : 'border border-zinc-300 dark:border-zinc-700 text-gray-900 dark:text-gray-100 hover:bg-zinc-50 dark:hover:bg-zinc-800'" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm transition-colors cursor-pointer hover:opacity-80">Crear</button>
-                        <button type="button" @click="isRegister = false" :class="!isRegister ? 'bg-black text-white' : 'border border-zinc-300 dark:border-zinc-700 text-gray-900 dark:text-gray-100 hover:bg-zinc-50 dark:hover:bg-zinc-800'" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm transition-colors cursor-pointer hover:opacity-80">Sesión</button>
+                        <button type="button" @click="isRegister = true" :class="isRegister ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900' : 'border border-zinc-300 dark:border-zinc-700 text-gray-900 dark:text-gray-100 hover:bg-zinc-50 dark:hover:bg-zinc-800'" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm transition-colors cursor-pointer hover:opacity-80">Crear</button>
+                        <button type="button" @click="isRegister = false" :class="!isRegister ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900' : 'border border-zinc-300 dark:border-zinc-700 text-gray-900 dark:text-gray-100 hover:bg-zinc-50 dark:hover:bg-zinc-800'" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm transition-colors cursor-pointer hover:opacity-80">Sesión</button>
                     </div>
                 </div>
 

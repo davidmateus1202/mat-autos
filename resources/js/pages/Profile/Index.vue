@@ -1,10 +1,10 @@
 <template>
-    <div class="relative min-h-screen bg-slate-50 dark:bg-zinc-950 overflow-x-hidden">
+    <div class="relative min-h-full bg-zinc-50 dark:bg-zinc-950 overflow-x-clip">
         <LoadingOverlay :visible="authStore.loading" />
 
         <div class="w-full space-y-8">
             <header
-                class="relative overflow-hidden dark:bg-zinc-900 shadow-2xl ring-1 ring-zinc-200/70 dark:ring-zinc-800 flex py-8 sm:py-10 w-full"
+                class="relative flex w-full overflow-hidden bg-white py-8 shadow-2xl ring-1 ring-zinc-200/70 dark:bg-zinc-900 dark:ring-zinc-800 sm:py-10"
                 style="max-height: 700px;">
                 <!-- Imagen del banner: ocupa todo el header por ser inset-0 -->
                 <div class="absolute inset-0" :style="bannerStyle"></div>
@@ -95,7 +95,7 @@
 
                         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                             <button type="submit"
-                                class="inline-flex items-center justify-center gap-2 rounded-lg bg-black text-white px-4 py-2 text-xs sm:text-sm font-semibold hover:bg-black/85 cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-teal-600 transition w-full sm:w-auto">
+                                class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/85 focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200 dark:focus-visible:ring-offset-zinc-950 sm:w-auto sm:text-sm">
                                 Guardar cambios
                             </button>
                             <span class="text-xs text-zinc-500 dark:text-zinc-400">Los datos se cargan desde tu sesión

@@ -1,9 +1,9 @@
 <template>
   <!-- Overlay for mobile -->
-  <div v-if="isOpen" class="fixed inset-0 bg-black/40 lg:hidden z-30" @click="closeMenu"></div>
+  <div v-if="isOpen" class="fixed inset-0 z-30 bg-zinc-950/50 backdrop-blur-sm lg:hidden" @click="closeMenu"></div>
 
   <!-- Sidebar panel -->
-  <div :class="['w-72 bg-white dark:bg-zinc-900 shadow-xl ring-1 ring-zinc-200/60 dark:ring-zinc-800 rounded-r-2xl overflow-y-auto flex flex-col', isOpen ? 'fixed inset-y-0 left-0 top-0 z-50 lg:hidden h-screen' : 'hidden lg:flex lg:static lg:flex-col h-screen z-40']">
+  <div :class="['flex w-72 shrink-0 flex-col overflow-hidden rounded-r-2xl bg-white shadow-xl ring-1 ring-zinc-200/60 dark:bg-zinc-900 dark:ring-zinc-800', isOpen ? 'fixed inset-y-0 left-0 top-0 z-50 h-dvh lg:hidden' : 'hidden lg:static lg:z-40 lg:flex lg:h-dvh']">
       <!-- Header -->
       <div class="flex items-center justify-between px-4 py-4 border-b border-zinc-200 dark:border-zinc-800 shrink-0">
         <div class="flex items-center gap-2">
@@ -21,7 +21,7 @@
       </div>
 
       <!-- Nav -->
-      <nav class="px-3 py-2 space-y-1 flex-1 overflow-y-auto">
+      <nav class="min-h-0 flex-1 overflow-y-auto px-3 py-2 space-y-1">
         <RouterLink :to="{ name: 'dashboard' }" class="nav-item" :class="{ 'active': isActive('dashboard') }" @click="closeMenu">
           <span class="icon">
             <HomeIcon class="h-4 w-4" />
@@ -49,19 +49,11 @@
       </nav>
 
       <!-- Footer -->
-      <div class="px-4 py-3 border-t border-zinc-200 dark:border-zinc-800 space-y-2 shrink-0 overflow-y-auto max-h-32">
+      <div class="shrink-0 border-t border-zinc-200 px-4 py-3 dark:border-zinc-800">
         <button @click="handleLogout" class="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-xs sm:text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer">
             <ArrowRightOnRectangleIcon class="h-4 w-4 flex-shrink-0" />
             <span class="truncate">Cerrar Sesión</span>
         </button>
-
-        <div class="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-800 px-2 py-2 text-xs">
-          <span class="text-zinc-600 dark:text-zinc-400">Tema</span>
-          <div class="flex items-center gap-1">
-            <button class="theme-btn" @click="setTheme('light')">C</button>
-            <button class="theme-btn" @click="setTheme('dark')">O</button>
-          </div>
-        </div>
       </div>
     </div>
 </template>
@@ -71,7 +63,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { HomeIcon, TruckIcon, CreditCardIcon, SparklesIcon, XMarkIcon, ArrowRightOnRectangleIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
 import { useAuthStore } from '../../stores/useAuth'
 
-const props = defineProps({ isOpen: { type: Boolean, default: false } })
+defineProps({ isOpen: { type: Boolean, default: false } })
 const emit = defineEmits(['close'])
 const route = useRoute()
 const router = useRouter()
@@ -83,12 +75,6 @@ function isActive(name) {
 
 function closeMenu() {
   emit('close')
-}
-
-function setTheme(mode) {
-  const html = document.documentElement
-  if (mode === 'dark') html.classList.add('dark')
-  else html.classList.remove('dark')
 }
 
 const handleLogout = async () => {
@@ -109,8 +95,4 @@ const handleLogout = async () => {
 .nav-item .icon { display: inline-flex; height: 1.75rem; width: 1.75rem; align-items: center; justify-content: center; border-radius: 0.375rem; background-color: #18181b; color: white; font-size: 0.75rem; }
 
 .nav-item .label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-.theme-btn { display: inline-flex; height: 1.75rem; align-items: center; border-radius: 0.375rem; background-color: #f4f4f5; padding: 0 0.75rem; font-size: 0.75rem; font-weight: 500; color: #3f3f46; }
-.dark .theme-btn { background-color: #27272a; color: #e4e4e7; }
-.theme-btn:hover { opacity: 0.9; }
 </style>

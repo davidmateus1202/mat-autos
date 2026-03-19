@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="min-w-0 overflow-hidden">
                                     <p class="font-medium text-zinc-900 dark:text-white truncate" :title="loan.bank_name">{{ loan.bank_name }}</p>
-                                    <p class="text-xs text-zinc-500 truncate">Tasa: {{ loan.interest_rate }}%</p>
+                                    <p class="text-xs text-zinc-500 truncate dark:text-zinc-400">Tasa: {{ loan.interest_rate }}%</p>
                                 </div>
                             </div>
                         </td>
@@ -84,7 +84,7 @@
                         </div>
                         <div>
                             <p class="font-medium text-zinc-900 dark:text-white">{{ loan.bank_name }}</p>
-                            <p class="text-xs text-zinc-500">Tasa: {{ loan.interest_rate }}%</p>
+                            <p class="text-xs text-zinc-500 dark:text-zinc-400">Tasa: {{ loan.interest_rate }}%</p>
                         </div>
                     </div>
                     <span :class="getLoanStatusClass(loan.status)" class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset">

@@ -8,6 +8,15 @@ import "vue-toastification/dist/index.css";
 import router from './router';
 import App from './App.vue';
 
+document.documentElement.classList.remove('dark');
+document.documentElement.style.colorScheme = 'light';
+
+try {
+    window.localStorage.removeItem('venta-carros-theme');
+} catch {
+    // Ignore storage cleanup errors.
+}
+
 const app = createApp(App);
 
 app.use(createPinia());
