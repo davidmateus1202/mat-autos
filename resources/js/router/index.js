@@ -3,6 +3,7 @@ import { useAuthStore } from '../stores/useAuth';
 
 // Lazy load components
 const Login = () => import('../pages/Auth/Login.vue');
+const Home = () => import('../pages/Home.vue');
 const Dashboard = () => import('../pages/Dashboards/Index.vue');
 const CarsIndex = () => import('../pages/Cars/Index.vue');
 const CarsShow = () => import('../pages/Cars/Show.vue');
@@ -12,13 +13,19 @@ const NotFound = () => import('../pages/NotFound.vue');
 
 const routes = [
     {
+        path: '/',
+        name: 'home',
+        component: Home,
+        meta: { layout: 'none' }
+    },
+    {
         path: '/login',
         name: 'login',
         component: Login,
         meta: { guest: true, layout: 'none' }
     },
     {
-        path: '/',
+        path: '/dashboard',
         name: 'dashboard',
         component: Dashboard,
         meta: { requiresAuth: true }

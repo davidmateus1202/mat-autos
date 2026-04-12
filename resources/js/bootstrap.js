@@ -16,8 +16,11 @@ window.axios.interceptors.response.use(
     response => response,
     error => {
         if (error.response?.status === 401) {
-            // If we are not already on the login page, redirect
-            if (!window.location.pathname.startsWith('/login')) {
+            // Keep public routes accessible without forcing auth redirect.
+            const publicPaths = new Set(['/', '/login']);
+            const isPublicPath = publicPaths.has(window.location.pathname);
+
+            if (!isPublicPath && !window.location.pathname.startsWith('/login')) {
                 window.location.href = '/login';
             }
         } else if (error.response?.status >= 500) {
