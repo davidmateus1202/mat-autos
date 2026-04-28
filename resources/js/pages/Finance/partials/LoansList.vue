@@ -92,7 +92,7 @@
                     </span>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-4 text-sm">
+                <div class="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
                     <div>
                         <p class="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Cupo Total</p>
                         <p class="font-medium text-zinc-900 dark:text-white">{{ formatCurrency(loan.amount) }}</p>
@@ -113,7 +113,7 @@
                     <div class="bg-indigo-600 h-1.5 rounded-full" :style="{ width: `${(loan.current_debt / loan.amount) * 100}%` }"></div>
                 </div>
 
-                <div class="flex items-center justify-end gap-2 pt-2">
+                <div class="flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:justify-end">
                     <button v-if="loan.available_credit > 0" @click="$emit('disburse', loan)" class="w-full text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-sm bg-indigo-50 dark:bg-indigo-900/20 px-4 py-2 rounded-lg transition-colors">
                         Desembolsar
                     </button>

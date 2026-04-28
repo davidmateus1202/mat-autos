@@ -63,7 +63,7 @@ const slots = useSlots();
 const hasHeader = computed(() => Boolean(props.eyebrow || props.title || props.description || props.icon || slots.headerAction));
 
 const panelClasses = computed(() => [
-    'rounded-3xl bg-white p-6 shadow-[0_20px_55px_-36px_rgba(15,23,42,0.35)] ring-1 ring-zinc-200/80',
+    'min-w-0 overflow-hidden rounded-3xl bg-white p-6 shadow-[0_20px_55px_-36px_rgba(15,23,42,0.35)] ring-1 ring-zinc-200/80',
     props.panelClass,
 ]);
 

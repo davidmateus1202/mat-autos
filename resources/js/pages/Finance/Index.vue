@@ -1,17 +1,17 @@
 <template>
     <AppContainer class="min-h-full">
         <!-- Header Section -->
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <h1 class="text-2xl font-bold text-zinc-900 dark:text-white">Finanzas</h1>
                 <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Gestiona tus cuentas y obligaciones financieras</p>
             </div>
-            <div class="flex items-center gap-3">
-                <button @click="showAccountModal = true" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-xl hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-700 dark:hover:bg-zinc-800 transition-colors cursor-pointer hover:opacity-80">
+            <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                <button @click="showAccountModal = true" class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition-colors cursor-pointer hover:bg-zinc-50 hover:opacity-80 dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-700 dark:hover:bg-zinc-800 sm:w-auto">
                     <PlusIcon class="h-4 w-4" />
                     <span>Nueva Cuenta</span>
                 </button>
-                <button @click="showLoanModal = true" class="btn-primary rounded-xl shadow-lg shadow-indigo-500/20 cursor-pointer">
+                <button @click="showLoanModal = true" class="btn-primary w-full rounded-xl shadow-lg shadow-indigo-500/20 cursor-pointer sm:w-auto">
                     <PlusIcon class="h-4 w-4" />
                     <span>Nuevo Préstamo</span>
                 </button>
@@ -51,7 +51,7 @@
             </Transition>
 
             <Transition enter-active-class="transform transition ease-in-out duration-500 sm:duration-700" enter-from-class="translate-x-full" enter-to-class="translate-x-0" leave-active-class="transform transition ease-in-out duration-500 sm:duration-700" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                <div v-if="showAccountModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-md flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                <div v-if="showAccountModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-full flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900 sm:max-w-lg">
                     <div class="flex items-center justify-between px-6 py-6 bg-zinc-900 text-white">
                         <h2 class="text-lg font-semibold">Nueva Cuenta Financiera</h2>
                         <button @click="showAccountModal = false" class="text-zinc-400 hover:text-white transition-colors">
@@ -87,9 +87,9 @@
                             </div>
                         </form>
                     </div>
-                    <div class="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex justify-end gap-3">
-                        <button type="button" @click="showAccountModal = false" class="px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-xl hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700">Cancelar</button>
-                        <button type="submit" form="account-form" class="btn-primary rounded-xl">Guardar Cuenta</button>
+                    <div class="flex flex-col-reverse gap-3 border-t border-zinc-200 bg-zinc-50 px-6 py-4 dark:border-zinc-800 dark:bg-zinc-900/50 sm:flex-row sm:justify-end">
+                        <button type="button" @click="showAccountModal = false" class="w-full px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-xl hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700 sm:w-auto">Cancelar</button>
+                        <button type="submit" form="account-form" class="btn-primary w-full rounded-xl sm:w-auto">Guardar Cuenta</button>
                     </div>
                 </div>
             </Transition>
@@ -102,7 +102,7 @@
             </Transition>
 
             <Transition enter-active-class="transform transition ease-in-out duration-500 sm:duration-700" enter-from-class="translate-x-full" enter-to-class="translate-x-0" leave-active-class="transform transition ease-in-out duration-500 sm:duration-700" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                <div v-if="showLoanModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-md flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                <div v-if="showLoanModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-full flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900 sm:max-w-lg">
                     <div class="flex items-center justify-between px-6 py-6 bg-zinc-900 text-white">
                         <h2 class="text-lg font-semibold">Nuevo Préstamo Bancario</h2>
                         <button @click="showLoanModal = false" class="text-zinc-400 hover:text-white transition-colors">
@@ -129,9 +129,9 @@
                             </div>
                         </form>
                     </div>
-                    <div class="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex justify-end gap-3">
-                        <button type="button" @click="showLoanModal = false" class="px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-xl hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700">Cancelar</button>
-                        <button type="submit" form="loan-form" class="btn-primary rounded-xl">Registrar Préstamo</button>
+                    <div class="flex flex-col-reverse gap-3 border-t border-zinc-200 bg-zinc-50 px-6 py-4 dark:border-zinc-800 dark:bg-zinc-900/50 sm:flex-row sm:justify-end">
+                        <button type="button" @click="showLoanModal = false" class="w-full px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-xl hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700 sm:w-auto">Cancelar</button>
+                        <button type="submit" form="loan-form" class="btn-primary w-full rounded-xl sm:w-auto">Registrar Préstamo</button>
                     </div>
                 </div>
             </Transition>
@@ -144,7 +144,7 @@
             </Transition>
 
             <Transition enter-active-class="transform transition ease-in-out duration-500 sm:duration-700" enter-from-class="translate-x-full" enter-to-class="translate-x-0" leave-active-class="transform transition ease-in-out duration-500 sm:duration-700" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                <div v-if="showDisburseModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-md flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                <div v-if="showDisburseModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-full flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900 sm:max-w-lg">
                     <div class="flex items-center justify-between px-6 py-6 bg-zinc-900 text-white">
                         <h2 class="text-lg font-semibold">Desembolsar Préstamo</h2>
                         <button @click="showDisburseModal = false" class="text-zinc-400 hover:text-white transition-colors">
@@ -171,9 +171,9 @@
                             </div>
                         </form>
                     </div>
-                    <div class="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex justify-end gap-3">
-                        <button type="button" @click="showDisburseModal = false" class="px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-xl hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700">Cancelar</button>
-                        <button type="submit" form="disburse-form" class="btn-primary rounded-xl">Confirmar Desembolso</button>
+                    <div class="flex flex-col-reverse gap-3 border-t border-zinc-200 bg-zinc-50 px-6 py-4 dark:border-zinc-800 dark:bg-zinc-900/50 sm:flex-row sm:justify-end">
+                        <button type="button" @click="showDisburseModal = false" class="w-full px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-xl hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700 sm:w-auto">Cancelar</button>
+                        <button type="submit" form="disburse-form" class="btn-primary w-full rounded-xl sm:w-auto">Confirmar Desembolso</button>
                     </div>
                 </div>
             </Transition>
@@ -186,7 +186,7 @@
             </Transition>
 
             <Transition enter-active-class="transform transition ease-in-out duration-500 sm:duration-700" enter-from-class="translate-x-full" enter-to-class="translate-x-0" leave-active-class="transform transition ease-in-out duration-500 sm:duration-700" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                <div v-if="showPaymentModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-md flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                <div v-if="showPaymentModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-full flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900 sm:max-w-lg">
                     <div class="flex items-center justify-between px-6 py-6 bg-zinc-900 text-white">
                         <h2 class="text-lg font-semibold">Pagar Cuota de Préstamo</h2>
                         <button @click="showPaymentModal = false" class="text-zinc-400 hover:text-white transition-colors">
@@ -216,9 +216,9 @@
                             </div>
                         </form>
                     </div>
-                    <div class="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex justify-end gap-3">
-                        <button type="button" @click="showPaymentModal = false" class="px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-xl hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700">Cancelar</button>
-                        <button type="submit" form="payment-form" class="btn-primary rounded-xl">Registrar Pago</button>
+                    <div class="flex flex-col-reverse gap-3 border-t border-zinc-200 bg-zinc-50 px-6 py-4 dark:border-zinc-800 dark:bg-zinc-900/50 sm:flex-row sm:justify-end">
+                        <button type="button" @click="showPaymentModal = false" class="w-full px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-xl hover:bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700 sm:w-auto">Cancelar</button>
+                        <button type="submit" form="payment-form" class="btn-primary w-full rounded-xl sm:w-auto">Registrar Pago</button>
                     </div>
                 </div>
             </Transition>
@@ -231,7 +231,7 @@
             </Transition>
 
             <Transition enter-active-class="transform transition ease-in-out duration-500 sm:duration-700" enter-from-class="translate-x-full" enter-to-class="translate-x-0" leave-active-class="transform transition ease-in-out duration-500 sm:duration-700" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                <div v-if="showAccountDetailsModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-md flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                <div v-if="showAccountDetailsModal" class="fixed inset-y-0 right-0 z-50 flex h-dvh w-screen max-w-full flex-col border-l border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900 sm:max-w-lg">
                     <!-- Header -->
                     <div class="px-6 py-6 bg-zinc-900 text-white">
                         <div class="flex items-center justify-between mb-4">
@@ -256,7 +256,7 @@
                         <div class="mb-8">
                             <h4 class="text-sm font-medium text-zinc-900 dark:text-white mb-4">Ajustar Saldo</h4>
                             <form @submit.prevent="submitAdjustment" class="space-y-4">
-                                <div class="flex gap-2 p-1 bg-zinc-100 dark:bg-zinc-800 rounded-lg">
+                                <div class="flex flex-col gap-2 rounded-lg bg-zinc-100 p-1 dark:bg-zinc-800 sm:flex-row">
                                     <button type="button" @click="adjustmentForm.type = 'credit'" :class="{'bg-white dark:bg-zinc-700 shadow-sm text-emerald-600 dark:text-emerald-400': adjustmentForm.type === 'credit', 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200': adjustmentForm.type !== 'credit'}" class="flex-1 py-2 text-sm font-medium rounded-md transition-all">
                                         Ingresar Dinero
                                     </button>

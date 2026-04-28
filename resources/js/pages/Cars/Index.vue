@@ -54,7 +54,7 @@
                 {{ store.errors.general[0] }}
             </div>
             <!-- Tarjetas estilo catálogo -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 <div v-for="car in store.cars" :key="car.id" class="rounded-2xl ring-1 ring-zinc-200/70 dark:ring-zinc-800 bg-white dark:bg-zinc-900 overflow-hidden shadow-sm">
                     <div class="h-40 bg-zinc-100 dark:bg-zinc-800">
                         <img v-if="car.image_url" :src="car.image_url" :alt="`${car.brand.name} ${car.model}`" class="h-full w-full object-cover" />
@@ -70,7 +70,7 @@
                                 {{ estadoLabel(car.status) }}
                             </span>
                         </div>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div class="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2 sm:gap-4">
                             <div>
                                 <p class="text-xs text-zinc-500 dark:text-zinc-400">Precio de compra</p>
                                 <p class="font-medium text-zinc-900 dark:text-white">{{ formatCurrency(car.purchase_price) }}</p>
@@ -80,9 +80,9 @@
                                 <p class="font-medium text-zinc-900 dark:text-white">{{ car.sale_price ? formatCurrency(car.sale_price) : '-' }}</p>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between pt-2">
-                            <p class="text-sm text-zinc-600 dark:text-zinc-300">VIN: {{ car.vin }}</p>
-                            <div class="flex gap-2">
+                        <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
+                            <p class="truncate text-sm text-zinc-600 dark:text-zinc-300">VIN: {{ car.vin }}</p>
+                            <div class="flex flex-col gap-2 sm:flex-row">
                                 <button v-if="car.status === 'available'" @click="openSaleModal(car)" class="inline-flex items-center rounded-md bg-emerald-600 text-white px-3 py-1.5 text-xs font-semibold hover:bg-emerald-500 cursor-pointer hover:opacity-90">Vender</button>
                                 <router-link :to="{ name: 'cars.show', params: { id: car.id }}" class="inline-flex items-center rounded-md bg-indigo-600 text-white px-3 py-1.5 text-xs font-semibold hover:bg-indigo-500 cursor-pointer hover:opacity-90">Ver detalles</router-link>
                             </div>
@@ -92,7 +92,7 @@
             </div>
 
             <!-- Paginación -->
-            <div class="mt-6 flex items-center justify-between">
+            <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <p class="text-sm text-zinc-600 dark:text-zinc-400">Mostrando página {{ store.pagination.current_page }} de {{ store.pagination.last_page }}</p>
                 <div class="flex items-center gap-2">
                     <button class="inline-flex items-center rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800" :disabled="store.pagination.current_page <= 1" @click="goToPage(store.pagination.current_page - 1)">Anterior</button>
@@ -110,8 +110,8 @@
             <div class="fixed inset-0 bg-black/50 transition-opacity"></div>
             <div class="fixed inset-0 overflow-hidden">
                 <div class="absolute inset-0 overflow-hidden">
-                    <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-10">
-                        <div class="pointer-events-auto w-screen sm:max-w-md transform transition ease-in-out duration-500 sm:duration-700">
+                    <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-6 lg:pl-10">
+                        <div class="pointer-events-auto w-screen max-w-full transform transition ease-in-out duration-500 sm:duration-700 sm:max-w-lg lg:max-w-xl">
                             <div class="flex h-full flex-col bg-white dark:bg-zinc-900 shadow-xl">
                                 <div class="px-4 py-6 sm:px-6 border-b border-zinc-200 dark:border-zinc-800 shrink-0">
                                     <div class="flex items-start justify-between">
@@ -161,7 +161,7 @@
                                             </p>
                                             
                                             <!-- Image previews -->
-                                            <div v-if="imagePreviews.length" class="mt-4 grid grid-cols-3 gap-3">
+                                            <div v-if="imagePreviews.length" class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
                                                 <div v-for="(src, idx) in imagePreviews" :key="idx" class="relative group">
                                                     <img :src="src" class="h-24 w-full object-cover rounded-lg" />
                                                     <button
@@ -192,7 +192,7 @@
                                             <p v-if="store.errors.brand_id" class="mt-1 text-xs text-red-600">{{ store.errors.brand_id[0] }}</p>
                                             <p v-if="store.errors.brand_name" class="mt-1 text-xs text-red-600">{{ store.errors.brand_name[0] }}</p>
                                         </div>
-                                        <div class="grid grid-cols-2 gap-4">
+                                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                             <div>
                                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Modelo</label>
                                                 <input v-model="newCar.model" type="text" required class="input mt-1" />
@@ -232,9 +232,9 @@
                                             <p v-if="store.errors.account_id" class="mt-1 text-xs text-red-600">{{ store.errors.account_id[0] }}</p>
                                         </div>
                                         
-                                        <div class="flex justify-end gap-3 pt-6 border-t border-zinc-200 dark:border-zinc-800">
-                                            <button type="button" @click="showCreateModal = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-zinc-800 dark:text-gray-300 dark:border-zinc-700 cursor-pointer hover:opacity-80">Cancelar</button>
-                                            <button type="submit" class="btn-primary cursor-pointer hover:opacity-90" :disabled="store.loading">{{ store.loading ? 'Guardando…' : 'Guardar' }}</button>
+                                        <div class="flex flex-col-reverse gap-3 border-t border-zinc-200 pt-6 dark:border-zinc-800 sm:flex-row sm:justify-end">
+                                            <button type="button" @click="showCreateModal = false" class="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-zinc-800 dark:text-gray-300 dark:border-zinc-700 cursor-pointer hover:opacity-80 sm:w-auto">Cancelar</button>
+                                            <button type="submit" class="btn-primary w-full cursor-pointer hover:opacity-90 sm:w-auto" :disabled="store.loading">{{ store.loading ? 'Guardando…' : 'Guardar' }}</button>
                                         </div>
                                     </form>
                                 </div>

@@ -4,7 +4,7 @@
         <div class="absolute -right-6 top-0 h-44 w-44 rounded-full bg-sky-100/90 blur-3xl"></div>
 
         <div class="relative grid gap-6 xl:grid-cols-[1.6fr,0.95fr]">
-            <div>
+            <div class="min-w-0">
                 <div class="inline-flex items-center gap-2 rounded-full bg-sky-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-700 ring-1 ring-sky-100">
                     <SparklesIcon class="h-4 w-4" />
                     Dashboard Ejecutivo
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="grid gap-4 rounded-3xl bg-zinc-950 p-6 text-white shadow-xl">
+            <div class="min-w-0 grid gap-4 rounded-3xl bg-zinc-950 p-5 text-white shadow-xl sm:p-6">
                 <div class="flex items-start justify-between gap-4">
                     <div>
                         <p class="text-xs uppercase tracking-[0.22em] text-white/55">Cierre del mes</p>
@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div
                         v-for="item in stats"
                         :key="item.label"

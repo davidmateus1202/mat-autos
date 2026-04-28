@@ -18,18 +18,24 @@
 }
 
 html.dark {
-    --page-bg: #09090b;
-    --page-fg: #f4f4f5;
-    --surface-bg: #18181b;
-    --surface-border: rgba(39, 39, 42, 0.95);
-    --input-bg: #111827;
-    --input-border: #3f3f46;
-    --input-placeholder: #71717a;
-    --input-focus-border: #6366f1;
-    --input-focus-ring: rgba(99, 102, 241, 0.22);
-    --button-bg: #fafafa;
-    --button-bg-hover: #e4e4e7;
-    --button-fg: #111827;
+    --page-bg: #f8fafc;
+    --page-fg: #111827;
+    --surface-bg: #ffffff;
+    --surface-border: rgba(228, 228, 231, 0.9);
+    --input-bg: #f8fafc;
+    --input-border: #d4d4d8;
+    --input-placeholder: #9ca3af;
+    --input-focus-border: #4f46e5;
+    --input-focus-ring: rgba(79, 70, 229, 0.16);
+    --button-bg: #111827;
+    --button-bg-hover: #1f2937;
+    --button-fg: #ffffff;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 html,
@@ -45,11 +51,11 @@ body,
 
 html {
     background-color: var(--page-bg);
-    color-scheme: light;
+    color-scheme: only light;
 }
 
 html.dark {
-    color-scheme: dark;
+    color-scheme: only light;
 }
 
 body {
@@ -74,7 +80,10 @@ html[data-scroll-locked='true'] {
 }
 
 .input {
+    display: block;
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
     border-radius: 0.75rem;
     border: 1px solid var(--input-border);
     background-color: var(--input-bg);
@@ -112,6 +121,30 @@ input,
 select,
 textarea {
     outline: none;
+    min-width: 0;
+    max-width: 100%;
+}
+
+input[type='date'].input,
+input[type='datetime-local'].input,
+input[type='month'].input {
+    appearance: none;
+    -webkit-appearance: none;
+    min-height: 48px;
+    line-height: 1.2;
+}
+
+input[type='date'].input::-webkit-date-and-time-value,
+input[type='datetime-local'].input::-webkit-date-and-time-value,
+input[type='month'].input::-webkit-date-and-time-value {
+    min-width: 0;
+    text-align: left;
+}
+
+input[type='date'].input::-webkit-calendar-picker-indicator,
+input[type='datetime-local'].input::-webkit-calendar-picker-indicator,
+input[type='month'].input::-webkit-calendar-picker-indicator {
+    opacity: 0.8;
 }
 
 .input-center {

@@ -7,7 +7,7 @@
         bodyClass="mt-8"
     >
         <template #headerAction>
-            <div class="grid grid-cols-3 gap-2 rounded-2xl bg-zinc-50 p-2 text-center">
+            <div class="grid grid-cols-1 gap-2 rounded-2xl bg-zinc-50 p-2 text-center sm:grid-cols-3">
                 <div class="rounded-2xl bg-white px-3 py-2 ring-1 ring-zinc-200/80">
                     <p class="text-[11px] uppercase tracking-[0.18em] text-zinc-400">Ventas</p>
                     <p class="mt-1 text-sm font-semibold text-zinc-950">{{ formatCompactCurrency(latestSummary.sales_amount) }}</p>
@@ -25,10 +25,10 @@
             </div>
         </template>
 
-        <div v-if="safeItems.length" class="grid grid-cols-4 gap-3 sm:grid-cols-8">
+        <div v-if="safeItems.length" class="grid grid-cols-2 gap-4 sm:grid-cols-4 xl:grid-cols-8">
             <div v-for="stat in safeItems" :key="stat.month" class="flex flex-col items-center gap-3">
-                <div class="flex h-44 items-end justify-center">
-                    <div class="flex h-full w-11 items-end rounded-full bg-zinc-100 p-1.5">
+                <div class="flex h-36 w-full items-end justify-center sm:h-44">
+                    <div class="flex h-full w-full max-w-[3rem] items-end rounded-full bg-zinc-100 p-1.5">
                         <div
                             class="w-full rounded-full bg-linear-to-t from-zinc-900 to-sky-500"
                             :style="{ height: `${barHeight(stat)}%` }"

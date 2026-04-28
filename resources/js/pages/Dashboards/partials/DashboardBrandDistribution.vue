@@ -20,7 +20,7 @@
                 <div
                     v-for="brand in segments"
                     :key="brand.name"
-                    class="flex items-center justify-between rounded-2xl bg-zinc-50 px-4 py-3"
+                    class="flex flex-col gap-3 rounded-2xl bg-zinc-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
                 >
                     <div class="flex min-w-0 items-center gap-3">
                         <span class="h-3 w-3 shrink-0 rounded-full" :style="{ backgroundColor: brand.color }"></span>
@@ -29,7 +29,7 @@
                             <p class="text-xs text-zinc-400">{{ formatCompactCurrency(brand.revenue) }}</p>
                         </div>
                     </div>
-                    <div class="text-right">
+                    <div class="sm:text-right">
                         <p class="text-sm font-semibold text-zinc-900">{{ brand.share.toFixed(1) }}%</p>
                         <p class="text-xs text-zinc-400">{{ brand.total }} ventas</p>
                     </div>

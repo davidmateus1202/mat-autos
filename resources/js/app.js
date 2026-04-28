@@ -11,11 +11,18 @@ import App from './App.vue';
 document.documentElement.classList.remove('dark');
 document.documentElement.style.colorScheme = 'light';
 
+const enforceLightMode = () => {
+    document.documentElement.classList.remove('dark');
+    document.documentElement.style.colorScheme = 'light';
+};
+
 try {
     window.localStorage.removeItem('venta-carros-theme');
 } catch {
     // Ignore storage cleanup errors.
 }
+
+enforceLightMode();
 
 const app = createApp(App);
 

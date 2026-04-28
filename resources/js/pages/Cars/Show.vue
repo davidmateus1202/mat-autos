@@ -25,7 +25,7 @@
                     </router-link>
 
             <!-- Main content: Image + Details -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
                 <!-- Image Gallery (Left) -->
                 <div class="lg:col-span-2">
                     <div class="bg-white dark:bg-zinc-900 rounded-xl overflow-hidden shadow-sm ring-1 ring-zinc-200/70 dark:ring-zinc-800">
@@ -58,7 +58,7 @@
                 </div>
 
                 <!-- Details Card (Right) -->
-                <div class="lg:col-span-1">
+                <div class="min-w-0 lg:col-span-1">
                     <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm ring-1 ring-zinc-200/70 dark:ring-zinc-800 p-6 space-y-6">
                         <!-- Title -->
                         <div>
@@ -123,7 +123,7 @@
             <div class="relative bg-white dark:bg-zinc-900 rounded-xl shadow-sm ring-1 ring-zinc-200/70 dark:ring-zinc-800 p-6">
                 <LoadingOverlay :visible="store.loading" />
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Registrar Gasto</h2>
-                <form @submit.prevent="addExpense" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <form @submit.prevent="addExpense" class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Concepto</label>
                         <input v-model="expenseForm.concept" type="text" required placeholder="ej: Cambio de aceite" class="input" :disabled="store.loading" />
@@ -147,7 +147,7 @@
                         </select>
                         <p v-if="store.errors.account_id" class="mt-1 text-xs text-red-600">{{ store.errors.account_id[0] }}</p>
                     </div>
-                    <div class="flex items-end gap-2">
+                    <div class="flex items-end gap-2 sm:col-span-2 xl:col-span-1">
                         <button type="submit" class="btn-primary flex-1 justify-center" :disabled="store.loading">Agregar Gasto</button>
                     </div>
                 </form>
@@ -157,7 +157,7 @@
             <div class="relative bg-white dark:bg-zinc-900 rounded-xl shadow-sm ring-1 ring-zinc-200/70 dark:ring-zinc-800 p-6">
                 <LoadingOverlay :visible="store.loading" />
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Registrar Precio de Venta</h2>
-                <form @submit.prevent="updateSalePrice" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <form @submit.prevent="updateSalePrice" class="grid grid-cols-1 gap-4 lg:grid-cols-3">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio Estimado (Opcional)</label>
                         <input v-model="salePriceForm.estimated_price_display" @input="handleEstimatedPriceInput" type="text" placeholder="$ 0" class="input" />
@@ -168,7 +168,7 @@
                         <input v-model="salePriceForm.sale_price_display" @input="handleSalePriceInput" type="text" placeholder="$ 0" class="input" />
                         <p v-if="store.errors.sale_price" class="mt-1 text-xs text-red-600">{{ store.errors.sale_price[0] }}</p>
                     </div>
-                    <div class="flex items-end gap-2">
+                    <div class="flex items-end gap-2 lg:col-span-1">
                         <button type="submit" class="btn-primary flex-1 justify-center">Guardar Precio</button>
                     </div>
                 </form>

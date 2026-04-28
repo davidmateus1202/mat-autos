@@ -12,7 +12,7 @@
                 :to="{ name: 'cars.show', params: { id: car.id } }"
                 class="block rounded-3xl border border-zinc-200 px-4 py-4 transition hover:border-zinc-300 hover:bg-zinc-50"
             >
-                <div class="flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div class="min-w-0">
                         <p class="truncate text-base font-semibold text-zinc-950">{{ car.label }}</p>
                         <p class="mt-1 text-xs text-zinc-400">{{ car.year }}<span v-if="car.plate"> · {{ car.plate }}</span></p>
@@ -22,7 +22,7 @@
                     </span>
                 </div>
 
-                <div class="mt-4 grid grid-cols-3 gap-3 text-sm">
+                <div class="mt-4 grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
                     <div>
                         <p class="text-xs uppercase tracking-[0.16em] text-zinc-400">Costo total</p>
                         <p class="mt-1 font-semibold text-zinc-900">{{ formatCompactCurrency(car.total_cost) }}</p>
@@ -31,7 +31,7 @@
                         <p class="text-xs uppercase tracking-[0.16em] text-zinc-400">Estimado</p>
                         <p class="mt-1 font-semibold text-zinc-900">{{ formatCompactCurrency(car.estimated_price) }}</p>
                     </div>
-                    <div class="text-right">
+                    <div class="sm:text-right">
                         <p class="text-xs uppercase tracking-[0.16em] text-zinc-400">Margen</p>
                         <p class="mt-1 font-semibold" :class="Number(car.potential_profit) >= 0 ? 'text-emerald-600' : 'text-rose-500'">
                             {{ formatCompactCurrency(car.potential_profit) }}
